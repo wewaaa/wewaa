@@ -44,6 +44,8 @@ services:
       MYSQL_DATABASE: test_db
       MYSQL_ROOT_PASSWORD: ce19f003
       MYSQL_ROOT_HOST: '%'
+    volumes:
+      - ./db/data/wewaa:/var/lib/mysql/wewaa
     expose:
       - 3306
     networks:

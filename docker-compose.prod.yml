@@ -1,0 +1,30 @@
+version: '3'
+services:
+  front:
+    image: ce19f003/front
+    container_name: front
+    ports:
+      - "8000:80"
+    networks:
+      - wewaa-network
+
+  backend:
+    image: ce19f003/backend
+    container_name: backend
+    ports:
+      - "8080:8080"
+    networks:
+      - wewaa-network
+
+  mysql:
+    image: ce19f003/mysql
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - wewaa-network
+
+networks:
+  wewaa-network:
+    external: true
+

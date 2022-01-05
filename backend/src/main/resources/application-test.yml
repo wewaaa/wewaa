@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://mysqldatabase:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true&connectTimeout=500000&socketTimeout=500000"
+    username: "root"
+    password: "ce19f003"
+
+  jpa:
+    database: "mysql"
+    show-sql: "true"
+    generate-ddl: "true"
+    hibernate:
+      ddl-auto: "update"

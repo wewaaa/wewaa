@@ -1,6 +1,6 @@
 package com.wewaa.backend.social.api;
 
-import com.wewaa.backend.social.model.AuthToken;
+import com.wewaa.backend.social.model.AuthTokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthController {
 
     @PostMapping("/login")
-    public ResponseEntity<AuthToken> login() {
+    public ResponseEntity<AuthTokenDto> login() {
         return ResponseEntity.ok(null);
     }
 
     @GetMapping("/refresh")
-    public ResponseEntity<AuthToken> refreshToken (HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<AuthTokenDto> refreshToken (HttpServletRequest request, HttpServletResponse response) {
         return ResponseEntity.ok(null);
     }
 }

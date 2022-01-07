@@ -1,4 +1,4 @@
-package com.wewaa.backend.social.dto;
+package com.wewaa.backend.social.token;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Slf4j
 @RequiredArgsConstructor
-public class AuthTokenDto {
+public class AuthToken {
 
     @Getter
     private final String token;
@@ -20,12 +20,12 @@ public class AuthTokenDto {
     //Token 체크시 필요한 암호 키
     private static final String AUTHORITIES_KEY = "role";
 
-    AuthTokenDto(String id, Date expiry, Key key) {
+    AuthToken(String id, Date expiry, Key key) {
         this.key = key;
         this.token = createAuthToken(id, expiry);
     }
 
-    AuthTokenDto(String id, String role, Date expiry, Key key) {
+    AuthToken(String id, String role, Date expiry, Key key) {
         this.key = key;
         this.token = createAuthToken(id, role, expiry);
     }

@@ -1,6 +1,5 @@
-package com.wewaa.backend.commons;
+package com.wewaa.backend.social.token;
 
-import com.wewaa.backend.social.dto.AuthTokenDto;
 import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
@@ -16,12 +15,12 @@ public class AuthTokenProvider {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public AuthTokenDto createAuthToken(String id, Date expiry) {
-        return new AuthTokenDto(id, expiry, key);
+    public AuthToken createAuthToken(String id, Date expiry) {
+        return new AuthToken(id, expiry, key);
     }
 
-    public AuthTokenDto createAuthToken(String id, String role, Date expiry) {
-        return new AuthTokenDto(id, role, expiry, key);
+    public AuthToken createAuthToken(String id, String role, Date expiry) {
+        return new AuthToken(id, role, expiry, key);
     }
 
 }

@@ -97,13 +97,21 @@ const ShareButton=styled.div`
 const UploadPage = () => {
     return (
         <Fix>
-            <Logo>LOGO</Logo><Home>HOME</Home><Logout>Logout</Logout>
-            <ImageInput></ImageInput><TextInput>Text</TextInput>
+            <Logo>LOGO</Logo>
+            <Home>HOME</Home>
+            <Logout>Logout</Logout>
+            <ImageInput></ImageInput>
+            <TextInput>Text</TextInput>
             <Explanation>Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy</Explanation>
-            <SaveButton><Button variant="contained" color="secondary">Save Profile Image</Button></SaveButton>
-            <ShareButton><Test/></ShareButton>
+            <SaveButton>
+                <Button variant="contained" color="secondary">Save Profile Image</Button>
+            </SaveButton>
+            <ShareButton>
+                <Test/>
+            </ShareButton>
         </Fix>
     )
 }
 
 export default UploadPage
+            

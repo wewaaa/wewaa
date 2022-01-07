@@ -18,5 +18,10 @@ spring:
     hibernate:
       ddl-auto: "update"
 
+#server port setting
 server:
   port: 8080
+
+# jwt secret key 설정
+jwt:
+  secret: 'iamkimkihyunhahahahaha'

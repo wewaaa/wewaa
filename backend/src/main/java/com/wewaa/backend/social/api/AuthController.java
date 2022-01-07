@@ -1,6 +1,6 @@
 package com.wewaa.backend.social.api;
 
-import com.wewaa.backend.social.model.AuthTokenDto;
+import com.wewaa.backend.social.dto.AuthTokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

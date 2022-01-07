@@ -1,7 +1,6 @@
 package com.wewaa.backend.social.token;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,4 +46,57 @@ public class AuthToken {
                 .compact();
     }
 
+
+    /**
+     * token 가져오기
+     * @return {@link Claims}
+     */
+    public Claims getTokenClaims() {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (SecurityException e) {
+            log.info("Invalid JWT signature.");
+        } catch (MalformedJwtException e) {
+            log.info("Invalid JWT token.");
+        } catch (ExpiredJwtException e) {
+            log.info("Expired JWT token.");
+        } catch (UnsupportedJwtException e) {
+            log.info("Unsupported JWT token.");
+        } catch (IllegalArgumentException e) {
+            log.info("JWT token compact of handler are invalid.");
+        }
+        return null;
+    }
+
+
+    /**
+     * method to validate token
+     * @return {@link Boolean}
+     */
+    public boolean validate() {
+        return this.getTokenClaims() != null;
+    }
+
+
+    /**
+     * method to expire token
+     * @return {@link Claims}
+     */
+    public Claims getExpiredTokenClaims() {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            log.info("Expired JWT token.");
+            return e.getClaims();
+        }
+        return null;
+    }
 }

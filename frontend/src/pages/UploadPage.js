@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
-import Test from './Test';
+import ShareButton from './ShareButton';
 
 const Fix=styled.div`
     width: 1512px;
@@ -79,14 +79,14 @@ const Explanation=styled.div`
     line-height: 21px;
     color: #000000;
 `;
-const SaveButton=styled.div`
+const SaveLocation=styled.div`
     position: absolute;
     width: 286px;
     height: 58px;
     left: 453px;
     top: 872px;
 `
-const ShareButton=styled.div`
+const ShareLocation=styled.div`
     position: absolute;
     width: 286px;
     height: 58px;
@@ -103,12 +103,12 @@ const UploadPage = () => {
             <ImageInput></ImageInput>
             <TextInput>Text</TextInput>
             <Explanation>Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy</Explanation>
-            <SaveButton>
+            <SaveLocation>
                 <Button variant="contained" color="secondary">Save Profile Image</Button>
-            </SaveButton>
-            <ShareButton>
-                <Test/>
-            </ShareButton>
+            </SaveLocation>
+            <ShareLocation>
+                <ShareButton/>
+            </ShareLocation>
         </Fix>
     )
 }

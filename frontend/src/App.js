@@ -1,8 +1,9 @@
 import './App.css';
 import UploadPage from  './pages/UploadPage';
+import SignPage from './pages/SignPage';
 function App() {
   return (
-    <UploadPage/>
+    <SignPage/>
   );
 }
 

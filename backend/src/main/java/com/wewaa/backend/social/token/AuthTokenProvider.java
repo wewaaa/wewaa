@@ -15,12 +15,27 @@ public class AuthTokenProvider {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
+    /**
+     *  create Auth Token method
+     * @param id oauth token
+     * @param expiry expire date
+     * @return {@link AuthToken}
+     */
     public AuthToken createAuthToken(String id, Date expiry) {
         return new AuthToken(id, expiry, key);
     }
 
+    /**
+     *  create Auth Token method with role
+     * @param id oauth token
+     * @param role role
+     * @param expiry expire date
+     * @return {@link AuthToken}
+     */
     public AuthToken createAuthToken(String id, String role, Date expiry) {
         return new AuthToken(id, role, expiry, key);
     }
+
+
 
 }

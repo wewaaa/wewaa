@@ -55,7 +55,7 @@ const UserIdLoc=styled.div`
     left: 473px;
     top: 372px;
 `;
-const PasswordLoc=styled.div`
+const UserPasswordLoc=styled.div`
     position: absolute;
     width: 430px;
     height: 55px;
@@ -113,25 +113,24 @@ const SignPage = () => {
         <Fix>
             <Logo>LOGO</Logo>
             <Home>HOME</Home>
-            
             <form  noValidate autoComplete="off">
                 <FirstNameLoc>
                     <TextField id="outlined-basic" label="First Name" variant="outlined" fullWidth  />
                 </FirstNameLoc>
                 <LastNameLoc>
-                    <TextField id="outlined-basic" label="Last Name" variant="outlined" />
+                    <TextField id="" label="Last Name" variant="outlined" />
                 </LastNameLoc>
                 <UserIdLoc>
-                    <TextField id="outlined-basic" label="User ID" variant="outlined" fullWidth />
+                    <TextField id="" label="User ID" variant="outlined" fullWidth />
                 </UserIdLoc>
-                <PasswordLoc>
-                    <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth />
-                </PasswordLoc>
+                <UserPasswordLoc>
+                    <TextField id="" label="User Password" variant="outlined" fullWidth />
+                </UserPasswordLoc>
                 <ConfirmPasswordLoc>
-                    <TextField id="outlined-basic" label="Confirm Password" variant="outlined" fullWidth />
+                    <TextField id="" label="Confirm Password" variant="outlined" fullWidth />
                 </ConfirmPasswordLoc>
                 <EmailAddressLoc>
-                    <TextField id="outlined-basic" label="Email Address" variant="outlined" fullWidth />
+                    <TextField id="" label="Email Address" variant="outlined" fullWidth />
                 </EmailAddressLoc>
                 <ConfirmLoc>
                     <Button variant="contained" color="primary">Confirm</Button>
@@ -139,8 +138,8 @@ const SignPage = () => {
                 <SaveLocation2>
                     <Button variant="contained" color="secondary">Save Profile Image</Button>
                 </SaveLocation2>
-                <CommentLoc>Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy</CommentLoc>
             </form>
+        <CommentLoc>Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy</CommentLoc>
             
         </Fix>
         

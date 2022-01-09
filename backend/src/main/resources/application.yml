@@ -5,7 +5,7 @@ spring:
     driver-class-name: "com.mysql.cj.jdbc.Driver"
     url: "jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true&connectTimeout=500000&socketTimeout=500000"
     username: "root"
-    password: "ce19f003"
+    password: "0000"
     hikari:
       idleTimeout: 10000
       connection-timeout: 10000
@@ -17,11 +17,57 @@ spring:
     show-sql: "true"
     hibernate:
       ddl-auto: "update"
+    properties:
+      hibernate:
+        format_sql: true
 
+  security:
+    oauth2.client:
+      registration:
+        google:
+          clientId: '610115176468-j30bk76n8kpbpra1ntt1q159htmgln7h.apps.googleusercontent.com'
+          clientSecret: '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'
+          scope:
+            - email
+            - profile
+        kakao:
+          clientId: '9f4acd7cea301b1aade4e287a7211ffa'
+          clientSecret: 'MGgqRPC2fd3kYRPteuT8VO7BVYe3qWXA'
+          clientAuthenticationMethod: post
+          authorizationGrantType: authorization_code
+          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          scope:
+            - profile_nickname
+            - profile_image
+            - account_email
+          clientName: Kakao
+      # Provider 설정
+      provider:
+        naver:
+          authorizationUri: https://nid.naver.com/oauth2.0/authorize
+          tokenUri: https://nid.naver.com/oauth2.0/token
+          userInfoUri: https://openapi.naver.com/v1/nid/me
+          userNameAttribute: response
+        kakao:
+          authorizationUri: https://kauth.kakao.com/oauth/authorize
+          tokenUri: https://kauth.kakao.com/oauth/token
+          userInfoUri: https://kapi.kakao.com/v2/user/me
+          userNameAttribute: id
 #server port setting
 server:
   port: 8080
 
 # jwt secret key 설정
 jwt:
-  secret: 'iamkimkihyunhahahahaha'
+  secret: 'iamkimkihyunhahahahahaiamkimkihyunhahahahaha'
+
+# 토큰 관련 secret Key 및 RedirectUri 설정
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpiry: 1800000 # 30분
+    refreshTokenExpiry: 604800000 # 7일
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth/redirect
+#      - http://localhost:8080/oauth/redirect

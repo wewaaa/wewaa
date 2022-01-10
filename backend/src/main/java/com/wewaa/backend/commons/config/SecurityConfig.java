@@ -10,6 +10,7 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 
 @Configuration
@@ -30,6 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .exceptionHandling()
+                // 인증 정보 부족할 때
+                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                // 인증 정보는 이해 했지만 비인가된 인증 코드
+                .accessDeniedHandler(tokenAccessDeniedHandler)
                 .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
@@ -40,11 +45,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .oauth2Login()
                 .authorizationEndpoint()
                 .baseUri("/oauth2/authorization")
+                .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
                 .and()
                 .redirectionEndpoint()
                 .baseUri("/*/oauth2/code/*")
                 .and()
-                .userInfoEndpoint();
+                .userInfoEndpoint()
+                .userService(oAuth2UserService)
+                .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler())
+                .failureHandler(oAuth2AuthenticationFailureHandler());
+
+        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     /*

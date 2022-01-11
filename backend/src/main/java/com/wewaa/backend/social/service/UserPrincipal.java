@@ -1,5 +1,6 @@
 package com.wewaa.backend.social.service;
 
+import com.wewaa.backend.social.model.entity.User;
 import com.wewaa.backend.social.model.type.ProviderType;
 import com.wewaa.backend.social.model.type.RoleType;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
@@ -14,6 +16,7 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 @Getter
@@ -88,5 +91,24 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
     @Override
     public String getName() {
         return null;
+    }
+
+    // for local user create
+    public static UserPrincipal create(User user) {
+        return new UserPrincipal(
+                user.getUserId(),
+                user.getPassword(),
+                user.getProviderType(),
+                RoleType.USER,
+                Collections.singletonList(new SimpleGrantedAuthority(RoleType.USER.getCode()))
+        );
+    }
+
+    // for OAuth user create
+    public static UserPrincipal create(User user, Map<String, Object> attributes) {
+        UserPrincipal userPrincipal = create(user);
+        userPrincipal.setAttributes(attributes);
+
+        return userPrincipal;
     }
 }

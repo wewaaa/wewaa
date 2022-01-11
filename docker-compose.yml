@@ -1,56 +1,92 @@
 version: '3'
 services:
-  front:
-    build:
-      context: frontend
-     # dockerfile: Dockerfile.dev
+# dev 환경에서는 필요 없음
+#  nginx:
+#    image: nginx:latest
+#    container_name: nginx
+#    depends_on:
+#      - frontend
+#    ports:
+#      - 80:80
+#    volumes:
+#      - ./nginx/config:/etc/nginx/conf.d:ro
+#    networks:
+#      - nginx-tier
+
+  frontend:
     container_name: frontend
+    build: ./frontend
     ports:
-      - "8000:80"
+      - "3000:3000"
+#    expose:
+#      - "3000"
+    volumes:
+      - ./frontend:/app
     networks:
-      - wewaa-network
+      - nginx-tier
+      - frontend-tier
 
   backend:
-    build:
-      context: backend
     container_name: backend
-    environment:
-      spring.datasource.url: "jdbc:mysql://mysqldb:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnection=true&createDatabaseIfNotExist=true"
-#      MYSQL_CONNECTION_URI: "jdbc:mysql://mysql-database:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnection=true&createDatabaseIfNotExist=true"
-#      MYSQL_ROOT_PASSWORD: "ce19f003"
-#      MYSQL_USER: "root"
-#      MYSQL_DATABASE: "test_db"
+    build: ./backend
     depends_on:
-      - mysql
-    ports:
-      - "8080:8080"
+      - mysqldb
+    expose:
+      - "8080"
+    environment:
+      spring.datasource.url: "jdbc:mysql://mysqldb:3306/wewaa?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
+    volumes:
+      - ./backend:/backend
     networks:
-      - wewaa-network
+      - db-tier
+      - ai-tier
+      - frontend-tier
+    tty: true
 
   text2image:
-    build:
-      context: ./text2image
     container_name: text2image
-    ports:
-      - "5000:5000"
+    build: ./text2image
+    expose:
+      - "5000"
     networks:
-      - wewaa-network
+      - db-tier
+      - ai-tier
 
-  mysql:
+  mysqldb:
     image: mysql:5.7
-    hostname: mysqldb
     container_name: mysqldb
     environment:
-      MYSQL_DATABASE: test_db
-      MYSQL_ROOT_PASSWORD: ce19f003
+      MYSQL_DATABASE: wewaa
+      MYSQL_ROOT_PASSWORD: "0000"
       MYSQL_ROOT_HOST: '%'
+    command: –character-set-server=utf8 –collation-server=utf8_unicode_ci
     volumes:
-      - ./db/data/wewaa:/var/lib/mysql/wewaa
-    expose:
-      - 3306
+      - ./db/wewaa:/var/lib/wewaa
+    ports:
+      - 3306:3306
     networks:
-      - wewaa-network
+      - db-tier
+
+#  adminer:
+#    image: adminer
+#    container_name: adminer
+#    restart: always
+#    environment:
+#      ADMINER_DEFAULT_SERVER: mysqldb
+#      ADMINER_DESIGN: ce19f003
+#      ADMINER_PASSWORD: 0000
+#      ADMINER_USERNAME: root
+#    ports:
+#      - "8081:8080"
+#    networks:
+#      - nginx-tier
 
 networks:
-  wewaa-network:
+  db-tier:
+    driver: bridge
+  nginx-tier:
+    driver: bridge
+  ai-tier:
+    driver: bridge
+  frontend-tier:
     driver: bridge

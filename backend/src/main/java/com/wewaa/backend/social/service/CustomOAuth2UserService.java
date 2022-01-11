@@ -1,5 +1,6 @@
 package com.wewaa.backend.social.service;
 
+import com.wewaa.backend.social.exception.OAuthProviderMissMatchException;
 import com.wewaa.backend.social.info.OAuth2UserInfo;
 import com.wewaa.backend.social.info.OAuth2UserInfoFactory;
 import com.wewaa.backend.social.model.entity.User;
@@ -46,6 +47,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if (savedUser != null) {
             updateUser(savedUser, userInfo);
         } else {
+            if (providerType != savedUser.getProviderType()) {
+                throw new OAuthProviderMissMatchException(
+                        "Looks like you're signed up with " + providerType +
+                                " account. Please use your " + savedUser.getProviderType() + " account to login."
+                );
+            }
             savedUser = createUser(userInfo, providerType);
         }
 

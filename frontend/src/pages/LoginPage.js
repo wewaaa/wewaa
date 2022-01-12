@@ -1,3 +1,4 @@
+import { Route,Routes,Link} from 'react-router-dom';
 import React from 'react'
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
@@ -101,7 +102,7 @@ const SigninLoc=styled.div`
 `;
 
 
-const LoginPage = () => {
+function LoginPage() {
     return (
         <Fix>
             <Logo>LOGO</Logo>
@@ -118,8 +119,9 @@ const LoginPage = () => {
                     <Button variant="contained" color="secondary" fullWidth>Log in</Button>
                 </LoginLoc>
                 <Line/>
-                <SigninLoc>Create account</SigninLoc>
+                <Link to="/SignPage"><SigninLoc>Create account</SigninLoc></Link>
             </LoginBox>
+            
             
             
         </Fix>

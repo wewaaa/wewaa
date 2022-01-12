@@ -1,6 +1,7 @@
 package com.wewaa.backend.commons.config;
 
 import com.wewaa.backend.commons.config.properties.AppProperties;
+import com.wewaa.backend.commons.config.properties.CorsProperties;
 import com.wewaa.backend.social.exception.RestAuthenticationEntryPoint;
 import com.wewaa.backend.social.filter.TokenAuthenticationFilter;
 import com.wewaa.backend.social.handler.OAuth2AuthenticationFailureHandler;
@@ -54,10 +55,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
-                .and()
+            .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+            .and()
                 .csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
@@ -66,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 // 인증 정보는 이해 했지만 비인가된 인증 코드
                 .accessDeniedHandler(tokenAccessDeniedHandler)
-                .and()
+            .and()
                 .authorizeRequests()
                 // cors setting 적용 - 브라우저는 요청을 preflighted request로 변경 하여 서버로 보내게 되도록 함
                 // OPTIONS -> "Method"
@@ -74,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
                 .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                 .anyRequest().authenticated()
-                .and()
+            .and()
                 .oauth2Login()
                 .authorizationEndpoint()
                 .baseUri("/oauth2/authorization")
@@ -82,10 +83,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .redirectionEndpoint()
                 .baseUri("/*/oauth2/code/*")
-                .and()
+            .and()
                 .userInfoEndpoint()
                 .userService(oAuth2UserService)
-                .and()
+            .and()
                 .successHandler(oAuth2AuthenticationSuccessHandler())
                 .failureHandler(oAuth2AuthenticationFailureHandler());
         // spring security가 작동하기 전에 토큰을 필터로 검사 한다.

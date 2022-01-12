@@ -53,9 +53,6 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
-    //xml to java object
-    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
-
     //to use @ConfigurationProperties
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 

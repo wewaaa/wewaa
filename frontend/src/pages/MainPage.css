@@ -1,0 +1,137 @@
+.Drawa {
+    font-family: Poppins;
+    font-size: 36px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000;
+    text-align: center;
+}
+
+.NavLine{
+    width: 1392px;
+    height: 1px;
+    margin: 16.5px 10px 16.5px 60px;
+    transform: rotate(-360deg);
+    background-color: #fff;
+}
+
+.ButtonDraw {
+    position: absolute;
+    width: 286px;
+    height: 58px;
+    left: 182px;
+    top: 642px;
+    background-color: #FF5E6C;
+    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.DRAW {
+    position: absolute;
+    width: 338px;
+    height: 130px;
+    left: 141px;
+    top: 160px;
+
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 100px;
+    line-height: 150px;
+
+    color: #FF5E6C;
+}
+
+.Background{
+    width: 1512px;
+    height: 1804px;
+    padding: 16px 50px 90.5px 0;
+    background-color: #efefef;
+}
+
+.PictureWhatYou {
+    position: absolute;
+    width: 524px;
+    height: 91px;
+    left: 182px;
+    top: 277px;
+
+    font-family: PT Serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 70px;
+    line-height: 91px;
+    color: #000000;
+}
+
+.WRITE {
+    position: absolute;
+    width: 326px;
+    height: 130px;
+    left: 432px;
+    top: 353px;
+
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 100px;
+    line-height: 150px;
+
+    color: #000000;
+
+}
+.HomeImage{
+    position: absolute;
+    width: 540px;
+    height: 540px;
+    left: 814px;
+    top: 175px;
+}
+
+.Ellipse{
+    position: absolute;
+    width: 460px;
+    height: 460px;
+    left: -201px;
+    top: 87px;
+    border-radius: 50%;
+    background: #FFFFFF;
+}
+
+.Ellipse1 {
+    position: absolute;
+    width: 105px;
+    height: 105px;
+    left: 1286px;
+    top: 505px;
+    border-radius: 50%;
+    background: #FFFFFF;
+}
+
+.Ellipse2{
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    left: 791px;
+    top: 252px;
+    border-radius: 50%;
+    background: #CCCCCC;
+}
+.Explain{
+    position: absolute;
+    width: 473px;
+    height: 52px;
+    left: 182px;
+    top: 547px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+
+    color: #000000;
+}

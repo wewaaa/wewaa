@@ -108,7 +108,7 @@ const CommentLoc=styled.div`
 `; 
 
 
-const SignPage = () => {
+function SignPage(){
     return (
         <Fix>
             <Logo>LOGO</Logo>

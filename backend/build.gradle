@@ -20,12 +20,53 @@ repositories {
 }
 
 dependencies {
+//    implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.4'
+//    implementation group: 'com.github.ulisesbocchio', name: 'jasypt-maven-plugin', version: '3.0.4'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'mysql:mysql-connector-java'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    // test code에서도 lombok 작동 위함
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    // oauth2-client
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    // spring security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // spring validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // spring log4j
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+
+    //jwt 관련 설정
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+    //xml to java object
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
+
+    //to use @ConfigurationProperties
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    // mustache 라이브러리
+    implementation 'org.springframework.boot:spring-boot-starter-mustache'
+}
+
+configurations {
+    // log4j를 사용 하기 위해서는 기본 설정인 logback을 삭제 해줘야함
+    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    all*.exclude group: 'org.springframework.boot', module: 'logback-classic'
 }
 
 test {

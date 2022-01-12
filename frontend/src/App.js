@@ -1,24 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
-
+import { Route,Routes,Link} from 'react-router-dom';
+import UploadPage from  './pages/UploadPage';
+import SignPage from './pages/SignPage';
+import LoginPage from './pages/LoginPage';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route exact path="/" element={<UploadPage/>}/>
+        <Route path="/Login" element={<LoginPage/>}/>
+        <Route path="/SignPage" element={<SignPage/>}/>
+      </Routes>
     </div>
+    // exact true를통해 /와 /login or /signpage의 중복을 방지
   );
 }
 

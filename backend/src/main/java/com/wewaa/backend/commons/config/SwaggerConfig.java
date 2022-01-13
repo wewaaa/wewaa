@@ -41,7 +41,7 @@ public class SwaggerConfig {
                 Collections.emptyList());
     }
     private ApiKey apiKey() {
-        return new ApiKey("JWT", "Authorization", "header");
+        return new ApiKey("JWT", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5MjZEOTZDOTAwMzBERDU4NDI5RDI3NTFBQzFCREJCQyIsImV4cCI6MTY0MjY2MDcxMX0.4uSqs38JmRx5JTk8IL8t0DkYngO5CfRpgH2rfr7h0FA", "header");
     }
 
     private SecurityContext securityContext() {

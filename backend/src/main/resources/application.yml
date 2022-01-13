@@ -53,6 +53,9 @@ spring:
           tokenUri: https://kauth.kakao.com/oauth/token
           userInfoUri: https://kapi.kakao.com/v2/user/me
           userNameAttribute: id
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 #server port setting
 server:
   port: 8080

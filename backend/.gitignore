@@ -70,3 +70,5 @@ out
 gen
 
 src/main/resources/secretkey.yml
+
+gcs-image-secret-key.json

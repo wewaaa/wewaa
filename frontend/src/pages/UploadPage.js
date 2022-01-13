@@ -9,10 +9,10 @@ import Modal from './Modal';
 
 
 const Fix=styled.div`
-    width: 1512px;
-    height: 982px;
-    background: #EFEFEF;
-    text-align: center;
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    background: #DBDBDB;
 `;
 const Logo=styled.div`
     position: absolute;
@@ -132,7 +132,7 @@ const StyledButton = withStyles({
       width: '286px',
       height: '58px',
       left: '613px',
-      top: '869px',
+      top: '500px',
       background: 'black',
       borderRadius: 3,
       border: 0,
@@ -160,9 +160,15 @@ const StyledButton = withStyles({
   })(LinearProgress);
   
 
-function UploadPage(){
+const UploadPage=()=>{
     const [openModal,setOpenModal]=useState(false);
-    const StartSwitch = ()=>{
+    const [profileText,setPorfileText]=useState("");
+
+    const textChange=(event)=>{
+        setPorfileText(event.target.value);
+    }
+    
+    const startSwitch = ()=>{
         if(openModal===false){
             setOpenModal(true);
         }
@@ -175,11 +181,14 @@ function UploadPage(){
             <ImageInput></ImageInput>
             <WriteLogo>Write</WriteLogo>
             <TextInput>
-                <input className='TextInput'></input>
+                <form>
+                    <input type="text" placeholder='Input Text' onChange={textChange}></input>
+                    <StyledButton variant="contained" onClick={startSwitch}>
+                        Done
+                    </StyledButton>
+                </form>
             </TextInput>
-            <StyledButton variant="contained" onClick={StartSwitch}>
-                Done
-            </StyledButton>
+
             <Explanation>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy
             </Explanation>

@@ -43,6 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
 
+    private final String[] SWAGER_WHITELIST ={"/v3/api-docs", "/configuration/ui", "/swagger-resources",
+            "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger/**"};
     /*
      * UserDetailsService 설정
      * */
@@ -58,8 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/static/css/**, /static/js/**, *.ico");
         // swagger
         web.ignoring()
-                .antMatchers( "/v3/api-docs", "/configuration/ui", "/swagger-resources",
-                        "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger/**");
+                .antMatchers( SWAGER_WHITELIST);
     }
 
 

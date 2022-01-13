@@ -8,6 +8,7 @@ import com.wewaa.backend.social.model.repository.UserRepository;
 import com.wewaa.backend.social.model.type.ProviderType;
 import com.wewaa.backend.social.model.type.RoleType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -43,16 +45,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
         User savedUser = userRepository.findByUserId(userInfo.getId());
-
         if (savedUser != null) {
             updateUser(savedUser, userInfo);
-        } else {
             if (providerType != savedUser.getProviderType()) {
                 throw new OAuthProviderMissMatchException(
                         "Looks like you're signed up with " + providerType +
                                 " account. Please use your " + savedUser.getProviderType() + " account to login."
                 );
             }
+        } else {
             savedUser = createUser(userInfo, providerType);
         }
 

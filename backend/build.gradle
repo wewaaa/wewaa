@@ -58,6 +58,10 @@ dependencies {
 
     // swagger ui
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+    // GCP library
+    implementation 'org.springframework.cloud:spring-cloud-gcp-starter:1.2.8.RELEASE'
+
 }
 
 configurations {

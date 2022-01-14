@@ -5,6 +5,9 @@ import AwesomeSlider from 'react-awesome-slider';
 import withAutoplay from 'react-awesome-slider/dist/autoplay';
 import 'react-awesome-slider/dist/styles.css';
 import { Route,Routes,Link} from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+
 
 const MainPage = () => {
     const isDesktopOrLaptop = useMediaQuery({minDeviceWidth: 1224})
@@ -18,8 +21,9 @@ const MainPage = () => {
             <div class="Ellipse"></div>
             <div class="Ellipse1"></div>
             <div class="Ellipse2"></div>
+            <div calss="PictureBack"></div>
             <h1 class="DRAW">DRAW</h1>
-            <h3 class="PictureWhatYou">picture what you</h3>
+            <h3 class="PictureWhatYou"> picture what you</h3>
             <h1 class="WRITE">WRITE</h1>
             <h4 class="Explain">Lorem Ipsum is simply dummy text of the printing and 
             typesetting industry.  Lorem Ipsum has been the industry</h4>
@@ -33,9 +37,9 @@ const MainPage = () => {
                 cancelOnInteraction={false} // should stop playing on user interaction
                 interval={6000}
             >
-                <div data-src="/img/Slide1.png" />
-                <div data-src="/img/Slide2.png" />
-                <div data-src="/img/Slide3.png" />
+                <div data-src="/img/homeSlide1.png" />
+                <div data-src="/img/homeSlide2.png" />
+                <div data-src="/img/homeSlide3.png" />
             </AutoplaySlider>
             </div>
         </>
@@ -44,17 +48,22 @@ const MainPage = () => {
 
 const AutoplaySlider = withAutoplay(AwesomeSlider);
 
-const slider = (
-  <AutoplaySlider
-    play={true}
-    cancelOnInteraction={false} // should stop playing on user interaction
-    interval={6000}
-  >
-    <div data-src="/img/Slide1.png" />
-    <div data-src="/img/Slide2.png" />
-    <div data-src="/img/Slide3.png" />
-  </AutoplaySlider>
-);
-
+const StyledButton = withStyles({
+    root: {
+      background: '#FF4D67',
+      borderRadius: 3,
+      border: 0,
+      color: 'white',
+      height: 48,
+      width: '286px',
+      padding: '0 30px',
+      boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+      left: '182px',
+      top: '530px',
+    },
+    label: {
+      textTransform: 'capitalize',
+    },
+  })(Button);
 
 export default MainPage

@@ -1,6 +1,7 @@
 package com.wewaa.backend.commons.config;
 
 import com.wewaa.backend.commons.config.properties.AppProperties;
+import com.wewaa.backend.commons.config.properties.CorsProperties;
 import com.wewaa.backend.social.exception.RestAuthenticationEntryPoint;
 import com.wewaa.backend.social.filter.TokenAuthenticationFilter;
 import com.wewaa.backend.social.handler.OAuth2AuthenticationFailureHandler;
@@ -19,6 +20,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -51,13 +53,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+                .antMatchers("/static/css/**, /static/js/**, *.ico");
+        // swagger
+        web.ignoring()
+                .antMatchers( "/v3/api-docs", "/configuration/ui", "/swagger-resources",
+                        "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger/**");
+    }
+
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
-                .and()
+            .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+            .and()
                 .csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
@@ -66,15 +79,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 // 인증 정보는 이해 했지만 비인가된 인증 코드
                 .accessDeniedHandler(tokenAccessDeniedHandler)
-                .and()
+            .and()
                 .authorizeRequests()
                 // cors setting 적용 - 브라우저는 요청을 preflighted request로 변경 하여 서버로 보내게 되도록 함
                 // OPTIONS -> "Method"
+                .antMatchers("/swagger-ui/**","/swagger-resources/**").permitAll()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
                 .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                 .anyRequest().authenticated()
-                .and()
+            .and()
                 .oauth2Login()
                 .authorizationEndpoint()
                 .baseUri("/oauth2/authorization")
@@ -82,10 +96,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .redirectionEndpoint()
                 .baseUri("/*/oauth2/code/*")
-                .and()
+            .and()
                 .userInfoEndpoint()
                 .userService(oAuth2UserService)
-                .and()
+            .and()
                 .successHandler(oAuth2AuthenticationSuccessHandler())
                 .failureHandler(oAuth2AuthenticationFailureHandler());
         // spring security가 작동하기 전에 토큰을 필터로 검사 한다.

@@ -3,7 +3,8 @@ import { Route,Routes,Link} from 'react-router-dom';
 import UploadPage from  './pages/UploadPage';
 import SignPage from './pages/SignPage';
 import LoginPage from './pages/LoginPage';
-import MainPage from './pages/MainPage'
+import MainPage from './pages/MainPage';
+
 function App() {
   return (
     <div>

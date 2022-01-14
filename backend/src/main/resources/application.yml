@@ -3,7 +3,7 @@ spring:
       name: "backend"
   datasource:
     driver-class-name: "com.mysql.cj.jdbc.Driver"
-    url: "jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true&connectTimeout=500000&socketTimeout=500000"
+    url: "jdbc:mysql://localhost:3306/wewaa?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true&connectTimeout=500000&socketTimeout=500000"
     username: "root"
     password: "0000"
     hikari:
@@ -53,6 +53,9 @@ spring:
           tokenUri: https://kauth.kakao.com/oauth/token
           userInfoUri: https://kapi.kakao.com/v2/user/me
           userNameAttribute: id
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 #server port setting
 server:
   port: 8080
@@ -71,3 +74,10 @@ app:
     authorizedRedirectUris:
       - http://localhost:3000/oauth/redirect
 #      - http://localhost:8080/oauth/redirect
+
+# cors 설정
+cors:
+  allowed-origins: 'http://localhost:3000'
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: '*'
+  max-age: 3600

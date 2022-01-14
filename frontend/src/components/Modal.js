@@ -6,18 +6,19 @@ import ShareButton from './ShareButton';
 import LinearProgress, { LinearProgressProps } from '@material-ui/core/LinearProgress';
 
 const Fixed=styled.div`
-    position: relative;
-    width: 1512px;
-    height: 982px;
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
     background: #5F5F5F;
     background-color: rgba( 138, 138, 138, 0.6);
+    z-index: 1;
     `
 const ModalContainer=styled.div`
     position: absolute;
     width: 775px;
     height: 734px;
-    left: 359px;
-    top: 160px;
+    left: 572px;
+    top: 162px;
     background: #FFFFFF;
     border-radius: 10px;
 `;
@@ -25,8 +26,8 @@ const ImageBox=styled.div`
     position: absolute;
     width: 331px;
     height: 331px;
-    left: 222px;
-    top: 82px;
+    left: 219px;
+    top: 98px;    
     background: black;
     border-radius: 20px;
 `;
@@ -34,8 +35,8 @@ const ExplainBox=styled.div`
     position: absolute;
     width: 434px;
     height: 45px;
-    left: 171px;
-    top: 473px;
+    left: 168px;
+    top: 489px;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;

@@ -3,11 +3,13 @@ import { Route,Routes,Link} from 'react-router-dom';
 import UploadPage from  './pages/UploadPage';
 import SignPage from './pages/SignPage';
 import LoginPage from './pages/LoginPage';
+import MainPage from './pages/MainPage';
+
 function App() {
   return (
     <div>
       <Routes>
-        <Route exact path="/" element={<UploadPage/>}/>
+        <Route exact path="/" element={<MainPage/>}/>
         <Route path="/Login" element={<LoginPage/>}/>
         <Route path="/SignPage" element={<SignPage/>}/>
       </Routes>

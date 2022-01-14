@@ -19,16 +19,6 @@
     background-color: #fff;
 }
 
-.ButtonDraw {
-    position: absolute;
-    width: 286px;
-    height: 58px;
-    left: 182px;
-    top: 642px;
-    background-color: #FF5E6C;
-    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
-}
-
 .DRAW {
     position: absolute;
     width: 338px;
@@ -41,13 +31,13 @@
     font-weight: bold;
     font-size: 100px;
     line-height: 150px;
-
-    color: #FF5E6C;
+    text-shadow: 2px 2px 4px #FF4D67;
+    color: #FF4D67;
 }
 
 .Background{
     width: 1512px;
-    height: 1804px;
+    height: 780px;
     padding: 16px 50px 90.5px 0;
     background-color: #efefef;
 }
@@ -79,6 +69,7 @@
     font-weight: bold;
     font-size: 100px;
     line-height: 150px;
+    text-shadow: 2px 2px 4px #000000;
 
     color: #000000;
 
@@ -87,7 +78,7 @@
     position: absolute;
     width: 540px;
     height: 540px;
-    left: 814px;
+    left: 825px;
     top: 175px;
 }
 
@@ -134,4 +125,12 @@
     line-height: 21px;
 
     color: #000000;
+}
+.PictureBack {
+    position: absolute;
+    width: 275px;
+    height: 39px;
+    left: 183px;
+    top: 361px;
+    background: linear-gradient(90deg, rgba(255, 94, 108, 0.4) 0%, rgba(239, 239, 239, 0.4) 92.19%);
 }

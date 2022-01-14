@@ -4,6 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 import AwesomeSlider from 'react-awesome-slider';
 import withAutoplay from 'react-awesome-slider/dist/autoplay';
 import 'react-awesome-slider/dist/styles.css';
+import { Route,Routes,Link} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -26,7 +27,7 @@ const MainPage = () => {
             <h1 class="WRITE">WRITE</h1>
             <h4 class="Explain">Lorem Ipsum is simply dummy text of the printing and 
             typesetting industry.  Lorem Ipsum has been the industry</h4>
-            <StyledButton variant="contained">go to Draw </StyledButton>
+            <Link to="/UploadPage"><button class="ButtonDraw"> go to Draw </button>Create account</Link>
             <img className="HomeImage" alt="homeImage" src="/img/a.png" />
             
             </div>

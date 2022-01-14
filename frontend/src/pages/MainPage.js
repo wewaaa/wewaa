@@ -4,6 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 import AwesomeSlider from 'react-awesome-slider';
 import withAutoplay from 'react-awesome-slider/dist/autoplay';
 import 'react-awesome-slider/dist/styles.css';
+import { Route,Routes,Link} from 'react-router-dom';
 
 const MainPage = () => {
     const isDesktopOrLaptop = useMediaQuery({minDeviceWidth: 1224})
@@ -22,7 +23,7 @@ const MainPage = () => {
             <h1 class="WRITE">WRITE</h1>
             <h4 class="Explain">Lorem Ipsum is simply dummy text of the printing and 
             typesetting industry.  Lorem Ipsum has been the industry</h4>
-            <button class="ButtonDraw"> go to Draw </button>
+            <Link to="/UploadPage"><button class="ButtonDraw"> go to Draw </button>Create account</Link>
             <img className="HomeImage" alt="homeImage" src="/img/a.png" />
             
             </div>

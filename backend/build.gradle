@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.2'
+    id 'org.springframework.boot' version '2.5.8'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'application'
@@ -63,9 +63,6 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-gcp-starter:1.2.8.RELEASE'
     implementation 'org.springframework.cloud:spring-cloud-gcp-starter-storage:1.2.8.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-mustache'
-
-    // https://mvnrepository.com/artifact/org.awaitility/awaitility
-    testImplementation 'org.awaitility:awaitility:3.0.0'
 
 }
 

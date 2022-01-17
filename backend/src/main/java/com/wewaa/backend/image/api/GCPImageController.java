@@ -1,21 +1,21 @@
 package com.wewaa.backend.image.api;
 
 import com.google.cloud.storage.Blob;
-import com.wewaa.backend.image.dto.DownloadReqDto;
-import com.wewaa.backend.image.service.ImageService;
+import com.wewaa.backend.image.dto.GCPDownloadReqDto;
+import com.wewaa.backend.image.service.GCPImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/image")
+@RequestMapping("/api/v1/gcp/image")
 @RequiredArgsConstructor
-public class ImageController {
+public class GCPImageController {
 
-    private final ImageService imageService;
+    private final GCPImageService imageService;
 
     @PostMapping("/")
-    public ResponseEntity localDownloadFromStorage(@RequestBody DownloadReqDto downloadReqDto){
+    public ResponseEntity localDownloadFromStorage(@RequestBody GCPDownloadReqDto downloadReqDto){
         Blob fileFromGCS = imageService.downloadFileFromGCS(downloadReqDto);
         return ResponseEntity.ok(fileFromGCS.toString());
     }

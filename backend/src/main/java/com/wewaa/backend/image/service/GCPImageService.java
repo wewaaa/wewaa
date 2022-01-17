@@ -4,7 +4,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
-import com.wewaa.backend.image.dto.DownloadReqDto;
+import com.wewaa.backend.image.dto.GCPDownloadReqDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +14,9 @@ import java.nio.file.Paths;
 
 @Slf4j
 @Service
-public class ImageService {
+public class GCPImageService {
 
-    public Blob downloadFileFromGCS(DownloadReqDto downloadReqDto) {
+    public Blob downloadFileFromGCS(GCPDownloadReqDto downloadReqDto) {
 //        String keyFileName = "gcs-image-secret-key.json";
 //        InputStream keyFile = null;
 //        try {

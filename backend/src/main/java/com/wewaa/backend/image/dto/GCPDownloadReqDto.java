@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DownloadReqDto {
+public class GCPDownloadReqDto {
     private String bucketName;
     private String downloadFileName;
     private String localFileLocation;

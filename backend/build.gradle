@@ -36,11 +36,11 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
 
     // oauth2-client
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
     // spring security
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    testImplementation 'org.springframework.security:spring-security-test'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    testImplementation 'org.springframework.security:spring-security-test'
 
     // spring validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -61,6 +61,11 @@ dependencies {
 
     // GCP library
     implementation 'org.springframework.cloud:spring-cloud-gcp-starter:1.2.8.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-gcp-starter-storage:1.2.8.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-mustache'
+
+    // https://mvnrepository.com/artifact/org.awaitility/awaitility
+    testImplementation 'org.awaitility:awaitility:3.0.0'
 
 }
 

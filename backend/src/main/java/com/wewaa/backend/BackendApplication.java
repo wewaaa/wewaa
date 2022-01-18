@@ -1,9 +1,9 @@
 package com.wewaa.backend;
 
-import com.wewaa.backend.commons.config.properties.CorsProperties;
 import com.wewaa.backend.commons.config.properties.AppProperties;
-import org.springframework.boot.SpringApplication;
+import com.wewaa.backend.commons.config.properties.CorsProperties;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
@@ -13,8 +13,13 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 })
 public class BackendApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(BackendApplication.class, args);
-    }
+    public static final String APPLICATION_LOCATIONS = "spring.config.location="
+            + "classpath:application.yml,"
+            + "classpath:aws.yml";
 
+    public static void main(String[] args) {
+        new SpringApplicationBuilder(BackendApplication.class)
+                .properties(APPLICATION_LOCATIONS)
+                .run(args);
+    }
 }

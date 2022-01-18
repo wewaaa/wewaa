@@ -1,57 +1,51 @@
 package com.wewaa.backend.commons.config;
 
+import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.*;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Configuration
-@Import(springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class)
+@EnableSwagger2
 public class SwaggerConfig {
-//http://localhost:8080/swagger-ui/index.html
+
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.OAS_30)
-                .useDefaultResponseMessages(false)
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.wewaa.backend.social.api.UserController"))
-                .paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/api/v2/**"))
                 .build()
-                .apiInfo(apiInfo());
+                .securityContexts(Lists.newArrayList(securityContext()));
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo(
-                "My REST API",
-                "Some custom description of API.",
-                "1.0",
-                "Terms of service",
-                new Contact("wewaa", "www.baeldung.com", "ce19f003@gmail.com"),
-                "License of API",
-                "API license URL",
-                Collections.emptyList());
-    }
-    private ApiKey apiKey() {
-        return new ApiKey("JWT", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5MjZEOTZDOTAwMzBERDU4NDI5RDI3NTFBQzFCREJCQyIsImV4cCI6MTY0MjY2MDcxMX0.4uSqs38JmRx5JTk8IL8t0DkYngO5CfRpgH2rfr7h0FA", "header");
+        String applicationName = "Swagger Practice";
+        return new ApiInfoBuilder()
+                .title(applicationName)
+                .build();
     }
 
     private SecurityContext securityContext() {
         return SecurityContext.builder().securityReferences(defaultAuth()).build();
     }
 
-    private List<SecurityReference> defaultAuth() {
+    List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
+        return Lists.newArrayList(new SecurityReference("JWT", authorizationScopes));
     }
 }

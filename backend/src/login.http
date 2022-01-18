@@ -1,0 +1,8 @@
+POST http://localhost:8080/api/v1/image
+Content-Type: application/json
+
+{
+  "bucketName":"wewaa_image_bucket",
+  "downloadFileName":"storage-object-name",
+  "localFileLocation":"001.png"
+}

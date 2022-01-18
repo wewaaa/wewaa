@@ -379,6 +379,7 @@ async def inference(prompt: str) -> None:
     for result_image in images_list:
         unique_id = str(uuid.uuid4().int)
         result_image.save("images"+"/"+unique_id+".png")
+    result_image
     return JSONResponse(result, status_code=status_code)
 
 @app.get("/greeting")

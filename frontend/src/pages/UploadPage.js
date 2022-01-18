@@ -6,6 +6,7 @@ import ShareButton from '../components/ShareButton';
 import LinearProgress, { LinearProgressProps } from '@material-ui/core/LinearProgress';
 import Modal from '../components/Modal';
 import Header from '../components/Header';
+import axios from "axios";
 
 
 const Fix=styled.div`
@@ -142,27 +143,57 @@ const StyledButton = withStyles({
 
 function UploadPage(){
     const [openModal,setOpenModal]=useState(false);
+    const [loading,setLoading]=useState(false);
+    const [sendText,setSendText]=useState('');
+
+ 
+    
+    const onInputChange=async(e)=>{
+        const text=e.target.value;
+        setSendText(text);
+
+    }
     const StartSwitch = ()=>{
-        if(openModal===false){
+            console.log(sendText)
+    }
+    const onSubmit =async(e)=>{
+        e.preventDefault();
+        const data ={
+            text:sendText
+        };
+        try{
+            setLoading(true)
+            const response= await axios.post(
+                '서버주소/서버주소/서버주소/.....',data
+            );
+            console.log(response);
             setOpenModal(true);
         }
-    }
+        catch(e){
+            alert('false')
+            console.log(data)
+
+        }
+        setLoading(false);
+    };
     return (
         <Fix>
             <Header></Header>
             <BackCircle1/><BackCircle2/><BackCircle3/><BackCircle4/><BackCircle5/>
             <ImageInput></ImageInput>
             <WriteLogo>Write</WriteLogo>
-            <TextInput>
-                <input className='TextInput'></input>
-            </TextInput>
-            <StyledButton variant="contained" onClick={StartSwitch}>
-                Done
-            </StyledButton>
+            <form onSubmit={onSubmit}>
+                <TextInput>
+                    <input className='TextInput' onChange={onInputChange}></input>
+                </TextInput>
+                <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
+                    Done
+                </StyledButton>
+            </form>
             <Explanation>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy
             </Explanation>
-            {openModal ? <StyledLinearProgress/>:<></>}
+            {loading ? <StyledLinearProgress/>:<></>}
             {openModal ? <Modal closeModal={setOpenModal}/>:<></>}
         </Fix>
     )

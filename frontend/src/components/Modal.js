@@ -4,6 +4,8 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import ShareButton from './ShareButton';
 import LinearProgress, { LinearProgressProps } from '@material-ui/core/LinearProgress';
+import axios from "axios";
+
 
 const Fixed=styled.div`
     position: absolute;
@@ -56,14 +58,33 @@ const ButtonBox=styled.div`
 
 
 function Modal({closeModal}) {
+    const[image,setImages]=useState([]);
+
+    useEffect(()=>{
+        const getImage =async ()=>{
+            let response
+            try{
+                    response = (await axios.get(
+                    'https://주소/주소/주소/주소/',{responseType:'blob'}
+                    )).data;
+                    setImages(response)
+            }
+            catch(e){
+                alert('오류 발생!')
+            }
+            return URL.createObjectURL(response)
+        }
+        getImage();
+    },[]);
+    
 
     return (
         <Fixed>
             <ModalContainer>
                     <button onClick= {()=> closeModal(false)}> X </button>
-                    <ImageBox/>
+                    <ImageBox></ImageBox>
                     <ExplainBox>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+                        <p>{image}</p>
                     </ExplainBox>
                     <ButtonBox>
                         <button>Save Profile Image</button><button>Share Image</button>

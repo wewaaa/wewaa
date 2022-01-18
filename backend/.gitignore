@@ -69,6 +69,4 @@ hs_err_pid*
 out
 gen
 
-src/main/resources/secretkey.yml
-
-src/main/resources/gcs-image-secret-key.json
+src/main/resources/aws.yml

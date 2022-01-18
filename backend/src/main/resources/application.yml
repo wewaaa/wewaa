@@ -54,16 +54,6 @@ spring:
           tokenUri: https://kauth.kakao.com/oauth/token
           userInfoUri: https://kapi.kakao.com/v2/user/me
           userNameAttribute: id
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-
-
-  cloud:
-    gcp:
-      storage:
-        credentials:
-          location: gcs-image-secret-key.json
 
   mustache:
     check-template-location: false

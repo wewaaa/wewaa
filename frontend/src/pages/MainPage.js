@@ -27,7 +27,7 @@ const MainPage = () => {
             <h1 class="WRITE">WRITE</h1>
             <h4 class="Explain">Lorem Ipsum is simply dummy text of the printing and 
             typesetting industry.  Lorem Ipsum has been the industry</h4>
-            <Link to="/UploadPage"><button class="ButtonDraw"> go to Draw </button>Create account</Link>
+            <Link to="/SignPage"><StyledButton variant="contained">go to Draw </StyledButton></Link>
             <img className="HomeImage" alt="homeImage" src="/img/a.png" />
             
             </div>

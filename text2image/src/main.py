@@ -432,12 +432,12 @@ async def inference(prompt: str) -> JSONResponse:
             "image_id": str(ObjectId()),
             "user_id": user_id,
             "prompt":prompt,
-            "image_url": "https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/images"+file_name,
+            "image_url": "https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/"+file_name,
             "score": score,
             "created_at": datetime.datetime.now()
         }
-        image_table.insert_one(image_data_dic)
-        result["images_url"].append("https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/images"+file_name)
+        # image_table.insert_one(image_data_dic)
+        result["images_url"].append("https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/"+file_name)
     return JSONResponse(result, status_code=status_code)
 
 @app.get("/greeting")

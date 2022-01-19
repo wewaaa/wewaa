@@ -3,13 +3,13 @@
 # Edited by DPS0340 (https://github.com/DPS0340)
 
 # Copyright 2021 The DALL·E mini Authors
-# 
+#
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
 #    You may obtain a copy of the License at
-# 
+#
 #        http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 #    Unless required by applicable law or agreed to in writing, software
 #    distributed under the License is distributed on an "AS IS" BASIS,
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,9 +17,11 @@
 #    limitations under the License.
 
 from typing import Any, Callable, Dict, Iterable, List, Tuple
+
 import jax
 import jax.numpy as jnp
 from dalle_mini.model import DalleBart
+from starlette.responses import JSONResponse
 from vqgan_jax.modeling_flax_vqgan import VQModel
 from transformers import AutoTokenizer, CLIPProcessor, FlaxCLIPModel
 import wandb
@@ -73,7 +75,7 @@ def get_dalle_model() -> Tuple[Any, Any]:
             DALLE_MODEL, revision=DALLE_COMMIT_ID, dtype=dtype, abstract_init=True
         )
         tokenizer = AutoTokenizer.from_pretrained(DALLE_MODEL, revision=DALLE_COMMIT_ID)
-    
+
     return model, tokenizer
 
 def get_vqgan_model() -> Any:
@@ -211,7 +213,7 @@ def get_tokenized_prompt(prompt: str = "a red T-shirt", *, models: dict) -> Any:
         truncation=True,
         max_length=128,
     ).data
-    
+
     return tokenized_prompt
 
 def predict(tokenized_prompt, *, funcs: dict, params: dict, key: Any) -> List:
@@ -264,7 +266,7 @@ def predict(tokenized_prompt, *, funcs: dict, params: dict, key: Any) -> List:
         decoded_images = decoded_images.clip(0.0, 1.0).reshape((-1, 256, 256, 3))
         for img in decoded_images:
             images.append(Image.fromarray(np.asarray(img * 255, dtype=np.uint8)))
-    
+
     return images
 
 
@@ -305,19 +307,19 @@ def display_image(prompt: str, images: Iterable, *, logits: ndarray, display: Ca
 # Original code by DPS0340 (https://github.com/DPS0340)
 
 # MIT License
-# 
+#
 # Copyright (c) 2022 DPS0340
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -346,16 +348,49 @@ def wrapped_predict(prompt: str):
     return images
 
 import uvicorn
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, Response, requests
 from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
+import boto3
+from aws_confing import *
+from pymongo import MongoClient
+from bson import ObjectId
+import datetime
+import uuid
 
 app = FastAPI(docs_url='/swagger')
+
+
+def s3_connection():
+    '''
+    s3 bucket에 연결
+    :return: 연결된 s3 객체
+    '''
+    try:
+        s3 = boto3.client(
+            service_name='s3',
+            region_name=AWS_S3_BUCKET_REGION,
+            aws_access_key_id=AWS_ACCESS_KEY,
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+        )
+    except Exception as e:
+        print(e)
+        exit("ERROR_S3_CONNECTION_FAILED")
+    else:
+        print("s3 bucket connected!")
+        return s3
+
+mongo = MongoClient('mongodb', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
+
+s3 = s3_connection()
+db = mongo.wewaa  # wewaa database
+image_table = db.image  # image table
 
 def serve():
     uvicorn.run(app, host="0.0.0.0", port=80)
 
 @app.get("/images")
-async def get_images() -> None:
+async def get_images() -> JSONResponse:
     # get all images from S3 using boto3
     #
     # TODO...
@@ -365,7 +400,7 @@ async def get_images() -> None:
     return JSONResponse(result, status_code=status_code)
 
 @app.post("/inference")
-async def inference(prompt: str) -> None:
+async def inference(prompt: str) -> JSONResponse:
     # generate images with given prompt
     # save images to S3 using boto3
     #
@@ -373,12 +408,36 @@ async def inference(prompt: str) -> None:
     #
     print("input promt"+prompt)
     status_code = 201
-    result = {} # show S3 urls with 201 Created? or not?
+    result = {
+        "total_image": 16,
+        "images_url": []
+    } # show S3 urls with 201 Created? or not?
     images_list = wrapped_predict(prompt)
-    import uuid
     for result_image in images_list:
         unique_id = str(uuid.uuid4().int)
-        result_image.save("images"+"/"+unique_id+".png")
+        file_name = "images/"+unique_id+".png"
+        result_image.save(file_name)
+        image_opened_file = open(file_name, 'rb')
+        s3.put_object(
+            ACL="public-read",
+            Bucket=AWS_S3_BUCKET_NAME,
+            Body=image_opened_file,
+            Key=file_name,
+            ContentType="image/png")
+
+        # TODO add user_id and ai estimation score
+        score = 0
+        user_id = "this_is_userid"
+        image_data_dic = {
+            "image_id": str(ObjectId()),
+            "user_id": user_id,
+            "prompt":prompt,
+            "image_url": "https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/images"+file_name,
+            "score": score,
+            "created_at": datetime.datetime.now()
+        }
+        image_table.insert_one(image_data_dic)
+        result["images_url"].append("https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/images"+file_name)
     return JSONResponse(result, status_code=status_code)
 
 @app.get("/greeting")

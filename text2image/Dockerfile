@@ -17,5 +17,7 @@ RUN pip install --upgrade pip \
 RUN pip install "jax[tpu]>=0.2.16" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
 RUN apt-get update && apt-get install libgl1 -y
 RUN pip install cloud-tpu-client
-# COPY . .
+COPY . .
+RUN pip install -r requirements.txt
+
 ENTRYPOINT [ "python", "src/main.py" ]

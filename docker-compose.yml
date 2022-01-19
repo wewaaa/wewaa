@@ -44,13 +44,29 @@ services:
     tty: true
 
   text2image:
-    container_name: text2image
     build: ./text2image
-    expose:
-      - "5000"
-    networks:
-      - db-tier
-      - ai-tier
+    # dockerfile: Dockerfile.test
+    container_name: text2image
+    privileged: true
+    cap_add:
+      - ALL #unsure if necessary
+    environment:
+      - TPU_NAME=tpu_name
+      - TF_CPP_MIN_LOG_LEVEL=0
+      - XRT_TPU_CONFIG="localservice;0;localhost:51011"
+      - TF_XLA_FLAGS=--tf_xla_enable_xla_devices
+    volumes:
+      - ./text2image:/dalle
+      - /var/run/docker.sock:/var/run/docker.sock #unsure if necessary
+      - /usr/share/tpu/:/usr/share/tpu/
+      - /lib/libtpu.so:/lib/libtpu.so
+    devices:
+      - "/dev:/dev"
+    tty: true
+    env_file:
+      - ./env.env
+    ports:
+      - "5000:80"
 
   mysqldb:
     image: mysql:5.7

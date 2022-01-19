@@ -1,1 +1,3 @@
 .idea
+/mongo-db
+env.env

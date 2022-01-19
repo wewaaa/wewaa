@@ -55,6 +55,7 @@ services:
   mysqldb:
     image: mysql:5.7
     container_name: mysqldb
+    restart: on-failure
     environment:
       MYSQL_DATABASE: wewaa
       MYSQL_ROOT_PASSWORD: "0000"
@@ -69,6 +70,37 @@ services:
     networks:
       - db-tier
 
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: on-failure
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: wewaa
+      MONGO_INITDB_ROOT_PASSWORD: wewaa
+      MONGO_INITDB_DATABASE: wewaa
+    networks:
+      - db-tier
+    tty: true
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo_admin
+    restart: always
+    depends_on:
+      - mongodb
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_ADMINUSERNAME: wewaa
+      ME_CONFIG_MONGODB_ADMINPASSWORD: wewaa
+    networks:
+      - db-tier
+    tty: true
 #  adminer:
 #    image: adminer
 #    container_name: adminer

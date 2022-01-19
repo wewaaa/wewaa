@@ -5,5 +5,5 @@ WORKDIR /app
 
 RUN npm install --silent
 RUN npm install react-scripts@4 -g --silent
-
+EXPOSE 3000
 CMD ["npm", "start"]

@@ -2,91 +2,72 @@ import React,{useState,useEffect} from 'react'
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import ShareButton from './ShareButton';
+import ShareButton from '../components/ShareButton';
 import LinearProgress, { LinearProgressProps } from '@material-ui/core/LinearProgress';
-import Modal from './Modal';
-
+import Modal from '../components/Modal';
+import Header from '../components/Header';
+import axios from "axios";
 
 
 const Fix=styled.div`
-    width: 1512px;
-    height: 982px;
+    width: 1920px;
+    height: 1080px;
     background: #EFEFEF;
     text-align: center;
 `;
-const Logo=styled.div`
-    position: absolute;
-    width: 105px;
-    height: 37px;
-    left: 704px;
-    top: 31px;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 36px;
-    line-height: 42px;
-    color: #000000;
-`;
-const Line=styled.div`
-    position: absolute;
-    width: 1413px;
-    height: 0px;
-    left: 50px;
-    top: 88px;
-    border: 1px solid #FFFFFF;
-`;
+
 const BackCircle1=styled.div`
     position: absolute;
-    height: 319px;
-    width: 319px;
-    left: 76px;
-    top: 130px;
+    width: 425px;
+    height: 406px;
+    left: 104px;
+    top: 148px;
     background: #FF5E6C;
     border-radius: 50%;
 `;
 const BackCircle2=styled.div`
     position: absolute;
-    width: 209px;
-    height: 209px;
-    left: 246px;
-    top: 88px;
+    width: 279px;
+    height: 266px;
+    left: 330px;
+    top: 94px;
     background: #E5E5E5;
     border-radius: 50%;
     
 `;
 const BackCircle3=styled.div`
     position: absolute;
-    width: 209px;
-    height: 209px;
-    left: 1006px;
-    top: 372px;
+    width: 273px;
+    height: 270px;
+    left: 1297px;
+    top: 325px;
     background: #E5E5E5;
     border-radius: 50%;
 `;
 const BackCircle4=styled.div`
     position: absolute;
-    width: 50px;
-    height: 50px;
-    left: 1309px;
-    top: 322px;
+    width: 66px;
+    height: 65px;
+    left: 1693px;
+    top: 260px;
     background: #FFFFFF;
     border-radius: 50%;
 `;
 const BackCircle5=styled.div`
     position: absolute;
-    width: 50px;
-    height: 50px;
-    left: 829px;
-    top: 743px;
+    width: 66px;
+    height: 65px;
+    left: 1066px;
+    top: 755px;
     background: #FFFFFF;
     border-radius: 50%;
 `;
 const WriteLogo=styled.div`
     position: absolute;
-    width: 280px;
-    height: 150px;
-    left: 1050px;
-    top: 400px;
+    width: 367px;
+    height: 194px;
+    left: 1413px;
+    top: 393px;
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
@@ -96,29 +77,29 @@ const WriteLogo=styled.div`
 `;
 const ImageInput=styled.div`
     position: absolute;
-    width: 545px;
-    height: 545px;
-    left: 182px;
-    top: 218px;
+    width: 636px;
+    height: 610px;
+    left: 271px;
+    top: 260px;
     background: #FFFFFF;
     border-radius: 20px;
 `;
 const TextInput=styled.div`
     position: absolute;
-    width: 520px;
-    height: 174px;
-    left: 810px;
-    top: 518px;
+    width: 681px;
+    height: 226px;
+    left: 1040px;
+    top: 514px;
     background: #FFFFFF;
     border-radius: 10px;
 `;
 
 const Explanation=styled.div`
     position: absolute;
-    width: 528px;
-    height: 58px;
-    left: 810px;
-    top: 704px;
+    width: 681px;
+    height: 75px;
+    left: 1045px;
+    top: 755px;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
@@ -131,8 +112,8 @@ const StyledButton = withStyles({
       position: 'absolute',
       width: '286px',
       height: '58px',
-      left: '613px',
-      top: '869px',
+      left: '850px',
+      top: '961px',
       background: 'black',
       borderRadius: 3,
       border: 0,
@@ -162,28 +143,57 @@ const StyledButton = withStyles({
 
 function UploadPage(){
     const [openModal,setOpenModal]=useState(false);
+    const [loading,setLoading]=useState(false);
+    const [sendText,setSendText]=useState('');
+
+ 
+    
+    const onInputChange=async(e)=>{
+        const text=e.target.value;
+        setSendText(text);
+
+    }
     const StartSwitch = ()=>{
-        if(openModal===false){
+            console.log(sendText)
+    }
+    const onSubmit =async(e)=>{
+        e.preventDefault();
+        const data ={
+            text:sendText
+        };
+        try{
+            setLoading(true)
+            const response= await axios.post(
+                '서버주소/서버주소/서버주소/.....',data
+            );
+            console.log(response);
             setOpenModal(true);
         }
-    }
+        catch(e){
+            alert('false')
+            console.log(data)
+
+        }
+        setLoading(false);
+    };
     return (
         <Fix>
-            <Logo>Drawa</Logo>
-            <Line/>
+            <Header></Header>
             <BackCircle1/><BackCircle2/><BackCircle3/><BackCircle4/><BackCircle5/>
             <ImageInput></ImageInput>
             <WriteLogo>Write</WriteLogo>
-            <TextInput>
-                <input className='TextInput'></input>
-            </TextInput>
-            <StyledButton variant="contained" onClick={StartSwitch}>
-                Done
-            </StyledButton>
+            <form onSubmit={onSubmit}>
+                <TextInput>
+                    <input className='TextInput' onChange={onInputChange}></input>
+                </TextInput>
+                <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
+                    Done
+                </StyledButton>
+            </form>
             <Explanation>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy
             </Explanation>
-            {openModal ? <StyledLinearProgress/>:<></>}
+            {loading ? <StyledLinearProgress/>:<></>}
             {openModal ? <Modal closeModal={setOpenModal}/>:<></>}
         </Fix>
     )

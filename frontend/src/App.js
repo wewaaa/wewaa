@@ -12,6 +12,7 @@ function App() {
         <Route exact path="/" element={<MainPage/>}/>
         <Route path="/Login" element={<LoginPage/>}/>
         <Route path="/SignPage" element={<SignPage/>}/>
+        <Route path="/UploadPage" element={<UploadPage/>}/>
       </Routes>
     </div>
     // exact true를통해 /와 /login or /signpage의 중복을 방지

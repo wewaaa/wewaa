@@ -4,6 +4,8 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import ShareButton from './ShareButton';
 import LinearProgress, { LinearProgressProps } from '@material-ui/core/LinearProgress';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 import axios from "axios";
 
 
@@ -58,21 +60,18 @@ const ButtonBox=styled.div`
 
 
 function Modal({closeModal}) {
-    const[image,setImages]=useState([]);
+    const[imagesUrl,setImagesUrl]=useState([]);
 
     useEffect(()=>{
         const getImage =async ()=>{
-            let response
             try{
-                    response = (await axios.get(
-                    'https://주소/주소/주소/주소/',{responseType:'blob'}
-                    )).data;
-                    setImages(response)
+                    const response = await axios.get(
+                    'https://주소/주소/주소/주소/');
+                    setImagesUrl(response.data);
             }
             catch(e){
-                alert('오류 발생!')
+                alert('오류 발생!');
             }
-            return URL.createObjectURL(response)
         }
         getImage();
     },[]);
@@ -82,9 +81,20 @@ function Modal({closeModal}) {
         <Fixed>
             <ModalContainer>
                     <button onClick= {()=> closeModal(false)}> X </button>
-                    <ImageBox></ImageBox>
+                    <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+                        {imagesUrl.map((image) => (
+                            <ImageListItem key={image}>
+                            <img
+                                src={`${image}?w=164&h=164&fit=crop&auto=format`}
+                                srcSet={`${image}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                                loading="lazy"
+                                alt="profile"
+                            />
+                            </ImageListItem>
+                        ))}
+                    </ImageList>
                     <ExplainBox>
-                        <p>{image}</p>
+                        원하시는 이미지를 클릭하시오
                     </ExplainBox>
                     <ButtonBox>
                         <button>Save Profile Image</button><button>Share Image</button>
@@ -95,3 +105,5 @@ function Modal({closeModal}) {
 }
 
 export default Modal
+
+

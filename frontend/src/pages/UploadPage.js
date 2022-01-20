@@ -8,7 +8,6 @@ import Modal from '../components/Modal';
 import Header from '../components/Header';
 import axios from "axios";
 
-
 const Fix=styled.div`
     width: 1920px;
     height: 1080px;
@@ -172,6 +171,7 @@ function UploadPage(){
         catch(e){
             alert('false')
             console.log(data)
+            setOpenModal(true);
 
         }
         setLoading(false);

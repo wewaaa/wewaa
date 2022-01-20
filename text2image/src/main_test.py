@@ -2,6 +2,7 @@ import uvicorn
 from fastapi import FastAPI, Response, requests
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from fastapi.middleware.cors import CORSMiddleware
 import boto3
 from aws_confing import *
 from pymongo import MongoClient
@@ -11,6 +12,17 @@ import uuid
 
 app = FastAPI(docs_url='/swagger')
 
+origins = [ "*",
+            "http://localhost",
+            "http://localhost:27017",
+            "http://localhost:3000", ]
+app.add_middleware(
+     CORSMiddleware, 
+     allow_origins=origins, 
+     allow_credentials=True, 
+     allow_methods=["*"], 
+     allow_headers=["*"], 
+     )
 
 def s3_connection():
     '''
@@ -38,7 +50,7 @@ def mongodb_connection():
     return: 연결된 mongo 객체
     '''
     try:
-        mongo = MongoClient('localhost',
+        mongo = MongoClient('mongodb',
                   username='wewaa',
                  password='wewaa')  # mongoDB는 27017 포트로 돌아갑니다.
         print(mongo)
@@ -72,7 +84,7 @@ async def get_images() -> JSONResponse:
     return JSONResponse(result, status_code=status_code)
 
 
-@app.post("/inference")
+@app.post("/inference/", tags=['prompt'])
 async def inference(prompt: str) -> JSONResponse:
     # generate images with given prompt
     # save images to S3 using boto3
@@ -80,7 +92,7 @@ async def inference(prompt: str) -> JSONResponse:
     print("input promt" + prompt)
     images_list = []
     for i in range(16):
-        images_list.append(open('../images/sample.png', 'rb'))
+        images_list.append(open('images/sample.png', 'rb'))
 
     status_code = 201
     result = {

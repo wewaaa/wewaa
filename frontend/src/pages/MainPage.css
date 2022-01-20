@@ -16,17 +16,17 @@
 .mainHome{
     width: 100%;
     height: 100%;
-    padding-bottom: 10rem;
+    padding-bottom: 8rem;
     display: flex;
 }
 
 .mainImage{
-    width: 35.7%;
-    margin: auto;
-    margin-top: 6%;
+    width: 650px;
+    height: 650px;
+    margin: 6rem 0 0 20rem;
+    margin-top: 3%;
     margin-right: 6%;
     background-image: url('../../public/img/main.png');
-    border: 3px solid #ad2121;
 
     background-position: right;
     background-repeat: no-repeat;
@@ -35,17 +35,17 @@
 }
 .titleDrawWrite{
     color: #FF4D67;
-    margin-left: 10%;
-    margin-top: 12%;
+    margin-left: 30%;
+    margin-top: 10rem;
     position: relative;
 
     font-family: Poppins;
     font-weight: bold;
     text-align: left;
-    font-size: 6.25rem;
-    text-shadow: 5px 5px 0px #FFFFFF;
+    font-size: 7rem;
+    text-shadow: 7px 7px 0px #FFFFFF;
 
-    line-height: 2rem;
+    line-height: 3rem;
 }
 
 .color{
@@ -59,27 +59,71 @@
 .titlePicWhatYou{
     width: 32.75rem;
     height: 5.688rem;
-    top: 20.438rem;
+    top: 16.3rem;
     left: 11.375rem;
     font-family: PTSerif;
     font-size: 4.375rem;
     font-weight: normal;
     text-align: left;
     color: #000;
-    margin-left: 15%;
+    margin-left: 5%;
+    position: absolute;
 }
 .howWorks{
     font-family: Poppins;
     font-weight:600;
     font-size: 2rem;
     margin-left: 8%;
+    margin-top: 0rem;
+    color: #000000;
+    font-family: PTSerif;
+    text-align: left;
+    padding-bottom: 3rem;
+    position:absolute;
+    z-index: 1;
+    top: 52rem;
+    left: 2rem;
 }
 
-.Ellipse{
+.ellipse1{
     width: 25rem;
     height: 25rem;
     left: -200px;
     position: fixed;
     border-radius: 50%;
     background-color: #ffffff;
+    z-index: 0;
   }
+
+.ellipse2{
+    width: 10rem;
+    height: 10rem;
+    margin: 40rem 15rem 0 52rem;
+    border-radius: 50%;
+    background-color: #ffffff;
+    position: fixed;
+}
+
+.ellipse3{
+    width: 2.3rem;
+    height: 2.3rem;
+    margin: 6rem 15rem 0 49rem;
+    border-radius: 50%;
+    background-color: #ccc;
+    position: fixed;
+
+}
+
+.explain{
+    width: 29.563rem;
+    height: 3.25rem;
+    margin-left: 49%;
+    margin-top: 0rem;
+    font-family: Roboto;
+    font-size: 1.125rem;
+    font-weight: normal;
+    color: #000;
+    text-align: right;
+
+    position: relative;
+}

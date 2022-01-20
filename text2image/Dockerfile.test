@@ -1,4 +1,4 @@
-FROM gcr.io/tpu-pytorch/xla:nightly_3.8_tpuvm
+FROM python:3.8-slim-buster
 
 ENV XRT_TPU_CONFIG="localservice;0;localhost:51011"
 

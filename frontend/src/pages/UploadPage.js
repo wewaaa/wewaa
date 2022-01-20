@@ -144,6 +144,7 @@ function UploadPage(){
     const [openModal,setOpenModal]=useState(false);
     const [loading,setLoading]=useState(false);
     const [sendText,setSendText]=useState('');
+    const [imagesUrl,setImagesUrl]=useState([]);
 
  
     
@@ -160,20 +161,18 @@ function UploadPage(){
         const data ={
             text:sendText
         };
-        try{
-            setLoading(true)
-            const response= await axios.post(
-                'http://localhost/inference?prompt='+sendText,data
-            );
+        setLoading(true)
+        await axios.post(       
+            'http://localhost/inference?prompt='+sendText,data
+         ).then(response=>{
             console.log(response);
+            setImagesUrl(response.data.images_url)
             setOpenModal(true);
-        }
-        catch(e){
+        })
+        .catch(error => {
             alert('false')
-            console.log(data)
-            setOpenModal(true);
-
-        }
+        })
+        
         setLoading(false);
     };
     return (
@@ -194,7 +193,7 @@ function UploadPage(){
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy
             </Explanation>
             {loading ? <StyledLinearProgress/>:<></>}
-            {openModal ? <Modal closeModal={setOpenModal}/>:<></>}
+            {openModal ? <Modal closeModal={setOpenModal} imagesUrl={imagesUrl}/>:<></>}
         </Fix>
     )
 }

@@ -380,21 +380,40 @@ def s3_connection():
         print("s3 bucket connected!")
         return s3
 
-mongo = MongoClient('mongodb', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
+def mongodb_connection():
+    '''
+    mongo bucket에 연결
+    return: 연결된 mongo 객체
+    '''
+    try:
+        mongo = MongoClient('localhost',
+                  username='wewaa',
+                 password='wewaa')  # mongoDB는 27017 포트로 돌아갑니다.
+        print(mongo)
+        db = mongo.wewaa
+    except Exception as e:
+        print("[+] Database connection error!")
+        raise e
+    else:
+        print("[+] Database connected!")
+        return db
+
 
 s3 = s3_connection()
-db = mongo.wewaa  # wewaa database
+db = mongodb_connection()
+
+s3 = s3_connection()
 image_table = db.image  # image table
 
 def serve():
     uvicorn.run(app, host="0.0.0.0", port=80)
 
 @app.get("/images")
-async def get_images() -> JSONResponse:
+async def get_images(id: str) -> JSONResponse:
     # get all images from S3 using boto3
     #
     # TODO...
-    #
+    #mongo find
     status_code = 200
     result = {}
     return JSONResponse(result, status_code=status_code)
@@ -432,12 +451,12 @@ async def inference(prompt: str) -> JSONResponse:
             "image_id": str(ObjectId()),
             "user_id": user_id,
             "prompt":prompt,
-            "image_url": "https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/images"+file_name,
+            "image_url": "https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/"+file_name,
             "score": score,
             "created_at": datetime.datetime.now()
         }
         image_table.insert_one(image_data_dic)
-        result["images_url"].append("https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/images"+file_name)
+        result["images_url"].append("https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/"+file_name)
     return JSONResponse(result, status_code=status_code)
 
 @app.get("/greeting")

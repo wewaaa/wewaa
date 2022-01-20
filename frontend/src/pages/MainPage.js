@@ -24,6 +24,7 @@ function MainPage () {
       boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
       left: '77%',
       top: '20px',
+      
     },
     label: {
       textTransform: 'capitalize',
@@ -50,16 +51,17 @@ function MainPage () {
 
       </div>
       <div className = "howWorks">How deos it works</div>
-      <AutoplaySlider
+      <div className='slide-resizer'>
+      <AutoplaySlider 
         play={true}
         cancelOnInteraction={false} // should stop playing on user interaction
-        interval={6000}
-      >
+        interval={2000}
+        >
         <div data-src="/img/homeSlide1.png" />
         <div data-src="/img/homeSlide2.png" />
         <div data-src="/img/homeSlide3.png" />
       </AutoplaySlider>
-
+      </div>
 
     </div>
   )

@@ -18,6 +18,8 @@
     height: 100%;
     padding-bottom: 8rem;
     display: flex;
+    margin: 0 auto;
+
 }
 
 .mainImage{
@@ -27,18 +29,17 @@
     margin-top: 3%;
     margin-right: 6%;
     background-image: url('../../public/img/main.png');
-
     background-position: right;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
 }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 .titleDrawWrite{
     color: #FF4D67;
     margin-left: 30%;
-    margin-top: 10rem;
+    margin-top: 11rem;
     position: relative;
-
     font-family: Poppins;
     font-weight: bold;
     text-align: left;
@@ -55,13 +56,13 @@
 .pictureBack{
     background: linear-gradient(60deg, #FF4D67, #efefef);
 }
-
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif&display=swap');
 .titlePicWhatYou{
-    width: 32.75rem;
+    width: 42.75rem;
     height: 5.688rem;
     top: 16.3rem;
     left: 11.375rem;
-    font-family: PTSerif;
+    font-family: 'PT Serif', serif;
     font-size: 4.375rem;
     font-weight: normal;
     text-align: left;
@@ -69,14 +70,14 @@
     margin-left: 5%;
     position: absolute;
 }
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&display=swap');
 .howWorks{
-    font-family: Poppins;
     font-weight:600;
     font-size: 2rem;
     margin-left: 8%;
     margin-top: 0rem;
     color: #000000;
-    font-family: PTSerif;
+    font-family: 'PT Serif', serif;
     text-align: left;
     padding-bottom: 3rem;
     position:absolute;
@@ -126,4 +127,16 @@
     text-align: right;
 
     position: relative;
+}
+
+.imageResize{
+    width: 70%;
+    height: 50%;
+    border-radius: 40%;
+}
+
+.slide-resizer{
+    margin: 0 auto;
+    filter: drop-shadow(10px 10px 10px rgb(117, 117, 117));
+    width: 65%;
 }

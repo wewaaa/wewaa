@@ -8,7 +8,6 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import axios from "axios";
 
-
 const Fixed=styled.div`
     position: absolute;
     width: 1920px;
@@ -59,40 +58,30 @@ const ButtonBox=styled.div`
 
 
 
-function Modal({closeModal}) {
-    const[imagesUrl,setImagesUrl]=useState([]);
-
-    useEffect(()=>{
-        const getImage =async ()=>{
-            try{
-                    const response = await axios.get(
-                    'https://주소/주소/주소/주소/');
-                    setImagesUrl(response.data);
-            }
-            catch(e){
-                alert('오류 발생!');
-            }
-        }
-        getImage();
-    },[]);
-    
-
+function Modal({closeModal,imagesUrl}) {
+    const[savefile,setSavefile]=useState(null);
+    useEffect(() => {
+        setSavefile(imagesUrl)
+        console.log({imagesUrl})
+        console.log(imagesUrl)
+        console.log(savefile)
+      }, []);
     return (
         <Fixed>
+            <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+            {imagesUrl.map((image) => (
+                <ImageListItem key={image}>
+                <img
+                    src={`${image}?w=16&h=16&fit=crop&auto=format`}
+                    srcSet={`${image}?w=16&h=16&fit=crop&auto=format&dpr=2 2x`}
+                    alt="profile"
+                />
+                </ImageListItem>
+            ))}
+            </ImageList>
             <ModalContainer>
+    
                     <button onClick= {()=> closeModal(false)}> X </button>
-                    <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
-                        {imagesUrl.map((image) => (
-                            <ImageListItem key={image.images_url}>
-                            <img
-                                src={`${image.images_url}?w=164&h=164&fit=crop&auto=format`}
-                                srcSet={`${image.images_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                                loading="lazy"
-                                alt="profile"
-                            />
-                            </ImageListItem>
-                        ))}
-                    </ImageList>
                     <ExplainBox>
                         원하시는 이미지를 클릭하시오
                     </ExplainBox>

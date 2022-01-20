@@ -7,6 +7,7 @@ import LinearProgress, { LinearProgressProps } from '@material-ui/core/LinearPro
 import Modal from '../components/Modal';
 import Header from '../components/Header';
 import axios from "axios";
+import qs from "qs";
 
 const Fix=styled.div`
     width: 1920px;
@@ -152,25 +153,24 @@ function UploadPage(){
         setSendText(text);
 
     }
-    const StartSwitch = ()=>{
-            console.log(sendText)
-    }
+
     const onSubmit =async(e)=>{
+        axios.default.paramsSerializer = params => {
+            return qs.stringify(params);
+          }
         e.preventDefault();
-        const data ={
-            text:sendText
-        };
+        const params = { text:{sendText} };
         try{
             setLoading(true)
             const response= await axios.post(
-                '서버주소/서버주소/서버주소/.....',data
+                '서버주소/서버주소/서버주소/.....',{params}
             );
             console.log(response);
             setOpenModal(true);
         }
         catch(e){
             alert('false')
-            console.log(data)
+            console.log(params)
             setOpenModal(true);
 
         }
@@ -186,7 +186,7 @@ function UploadPage(){
                 <TextInput>
                     <input className='TextInput' onChange={onInputChange}></input>
                 </TextInput>
-                <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
+                <StyledButton variant="contained"  type='submit'>
                     Done
                 </StyledButton>
             </form>

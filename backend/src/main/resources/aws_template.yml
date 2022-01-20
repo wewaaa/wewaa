@@ -1,0 +1,16 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: 
+      secretKey: 
+    s3:
+      originBucket: 
+    region:
+      static: 
+    stack:
+      auto: false
+spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+    max-request-size: 20MB

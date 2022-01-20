@@ -1,0 +1,17 @@
+FROM gcr.io/tpu-pytorch/xla:nightly_3.8_tpuvm
+
+ENV XRT_TPU_CONFIG="localservice;0;localhost:51011"
+
+WORKDIR /dalle
+
+RUN mkdir -p /usr/share/tpu/
+
+RUN pip install --upgrade pip \
+    pip install -q transformers \
+    fastapi
+
+RUN apt-get update && apt-get install libgl1 -y
+COPY . .
+RUN pip install -r requirements.txt
+
+ENTRYPOINT [ "python", "src/main_test.py" ]

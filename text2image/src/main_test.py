@@ -50,9 +50,9 @@ def mongodb_connection():
     return: 연결된 mongo 객체
     '''
     try:
-        mongo = MongoClient('mongodb',
+        mongo = MongoClient('localhost',
                   username='wewaa',
-                 password='wewaa')  # mongoDB는 27017 포트로 돌아갑니다.
+                  password='wewaa')  # mongoDB는 27017 포트로 돌아갑니다.
         print(mongo)
         db = mongo.wewaa
     except Exception as e:
@@ -73,7 +73,7 @@ def serve():
     uvicorn.run(app, host="0.0.0.0", port=80)
 
 
-@app.get("/images")
+@app.get("/images/")
 async def get_images() -> JSONResponse:
     # get all images from S3 using boto3
     #
@@ -84,6 +84,26 @@ async def get_images() -> JSONResponse:
     return JSONResponse(result, status_code=status_code)
 
 
+@app.post("/images/")
+async def get_images() -> JSONResponse:
+    # get all images from S3 using boto3
+    #
+    # TODO...
+    #
+    status_code = 200
+    result = {}
+    return JSONResponse(result, status_code=status_code)
+
+@app.post("/images")
+async def get_images() -> JSONResponse:
+    # get all images from S3 using boto3
+    #
+    # TODO...
+    #
+    status_code = 200
+    result = {}
+    return JSONResponse(result, status_code=status_code)
+    
 @app.post("/inference/", tags=['prompt'])
 async def inference(prompt: str) -> JSONResponse:
     # generate images with given prompt
@@ -103,12 +123,13 @@ async def inference(prompt: str) -> JSONResponse:
         unique_id = str(uuid.uuid4().int)
         file_name = "images/" + unique_id + ".png"
         image_opened_file = result_image
-        # s3.put_object( 
-        #     ACL="public-read",
-        #     Bucket=AWS_S3_BUCKET_NAME,
-        #     Body=image_opened_file,
-        #     Key=file_name,
-        #     ContentType="image/png")
+
+        s3.put_object( 
+            ACL="public-read",
+            Bucket=AWS_S3_BUCKET_NAME,
+            Body=image_opened_file,
+            Key=file_name,
+            ContentType="image/png")
 
         # TODO add user_id and ai estimation score
         score = 0
@@ -123,7 +144,7 @@ async def inference(prompt: str) -> JSONResponse:
         }
         print(image_data_dic)
         print("몽고db에 값이 들어가기전")
-        image.insert_one(image_data_dic)
+        # image.insert_one(image_data_dic)
         print("몽고db에 값이 들어감")
         result["images_url"].append("https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/" + file_name)
     return JSONResponse(result, status_code=status_code)

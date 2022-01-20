@@ -6,8 +6,6 @@ WORKDIR /dalle
 
 RUN mkdir -p /usr/share/tpu/
 
-RUN pip install --upgrade pip \
-    fastapi
 COPY . .
 RUN pip install -r requirements.txt
 

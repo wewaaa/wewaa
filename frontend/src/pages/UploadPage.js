@@ -163,7 +163,7 @@ function UploadPage(){
         try{
             setLoading(true)
             const response= await axios.post(
-                '서버주소/서버주소/서버주소/.....',data
+                'http://localhost/inference?prompt='+sendText,data
             );
             console.log(response);
             setOpenModal(true);

@@ -26,26 +26,27 @@ services:
       - nginx-tier
       - frontend-tier
 
-  backend:
-    container_name: backend
-    build: ./backend
-    depends_on:
-      - mysqldb
-    expose:
-      - "8080"
-    environment:
-      spring.datasource.url: "jdbc:mysql://mysqldb:3306/wewaa?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
-    volumes:
-      - ./backend:/backend
-    networks:
-      - db-tier
-      - ai-tier
-      - frontend-tier
-    tty: true
+  # backend:
+  #   container_name: backend
+  #   build: ./backend
+  #   depends_on:
+  #     - mysqldb
+  #   expose:
+  #     - "8080"
+  #   environment:
+  #     spring.datasource.url: "jdbc:mysql://mysqldb:3306/wewaa?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
+  #   volumes:
+  #     - ./backend:/backend
+  #   networks:
+  #     - db-tier
+  #     - ai-tier
+  #     - frontend-tier
+  #   tty: true
 
   text2image:
-    build: ./text2image
-    # dockerfile: Dockerfile.test
+    build: 
+      context: ./text2image
+      dockerfile: Dockerfile.test
     container_name: text2image
     privileged: true
     cap_add:
@@ -63,28 +64,30 @@ services:
     devices:
       - "/dev:/dev"
     tty: true
+    networks:
+      - db-tier
     env_file:
       - ./env.env
     ports:
       - "80:80"
 
-  mysqldb:
-    image: mysql:5.7
-    container_name: mysqldb
-    restart: on-failure
-    environment:
-      MYSQL_DATABASE: wewaa
-      MYSQL_ROOT_PASSWORD: "0000"
-      MYSQL_ROOT_HOST: '%'
-#    volumes:
-#      - ./db/mycustom.cnf:/etc/mysql/conf.d/custom.cnf
-    command: # 명령어 실행
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
-    ports:
-      - 3306:3306
-    networks:
-      - db-tier
+#   mysqldb:
+#     image: mysql:5.7
+#     container_name: mysqldb
+#     restart: on-failure
+#     environment:
+#       MYSQL_DATABASE: wewaa
+#       MYSQL_ROOT_PASSWORD: "0000"
+#       MYSQL_ROOT_HOST: '%'
+# #    volumes:
+# #      - ./db/mycustom.cnf:/etc/mysql/conf.d/custom.cnf
+#     command: # 명령어 실행
+#       - --character-set-server=utf8mb4
+#       - --collation-server=utf8mb4_unicode_ci
+#     ports:
+#       - 3306:3306
+#     networks:
+#       - db-tier
 
   mongodb:
     image: mongo

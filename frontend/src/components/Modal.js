@@ -68,6 +68,7 @@ function Modal({closeModal,imagesUrl}) {
       }, []);
     return (
         <Fixed>
+            <ImageBox>
             <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
             {imagesUrl.map((image) => (
                 <ImageListItem key={image}>
@@ -79,6 +80,7 @@ function Modal({closeModal,imagesUrl}) {
                 </ImageListItem>
             ))}
             </ImageList>
+            </ImageBox>
             <ModalContainer>
     
                     <button onClick= {()=> closeModal(false)}> X </button>

@@ -9,63 +9,58 @@ import Header from '../components/Header';
 import axios from "axios";
 
 const Fix=styled.div`
+    width: 100%;
+    height: 100%;
     background-color: #373737;
 `;
 
 const UploadMargin=styled.div`
     width: 82rem;
     margin: 0 auto;
-    position: flex;
-    color: red;
 `;
 
+const RightCol=styled.div`
+    float: right;
+`;
 const WriteLogo=styled.div`
-    position: absolute;
     width: 17.5rem;
-    height: 9.375rem;
-    margin: 14.125rem 0 10.75rem 14.813rem;
-    left: 1413px;
-    top: 393px;
+    height: 6.8rem;
     font-family: Poppins;
-    font-style: normal;
     font-weight: bold;
-    font-size: 100px;
-    line-height: 150px;
+    font-size: 6.25rem;
     color: #fed41d;
+    margin-top: 22.5rem;
+    z-index: 0;
+    text-aline: right;
 `;
 
 const ImageInput=styled.div`
-    position: absolute;
     width: 33.813rem;
     height: 33.813rem;  
-    left: 271px;
-    top: 260px;
-    background: #000000;
+    margin-top: 8rem;
+    background: #ffffff;
     border-radius: 1rem;
+    float: left;
 `;
 
 const TextInput=styled.div`
-    position: absolute;
-    width: 681px;
-    height: 226px;
-    left: 1040px;
-    top: 514px;
-    background: #FFFFFF;
-    border-radius: 10px;
+    width: 30.5rem;
+    height: 12.813rem;
+    border-radius: 1rem;
+    float: right;
+    background-color: #fff;
+    z-index: 1;
+    margin-bottom: 2rem;
 `;
 
 const Explanation=styled.div`
-    position: absolute;
-    width: 681px;
-    height: 75px;
-    left: 1045px;
-    top: 755px;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 21px;
-    color: #000000;
+    width: 30.5rem;
+    margin-top: 0rem;
+    font-family: Poppins;
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-aline: left;
+    color: #ffffff;
 `;
 
 const StyledButton = withStyles({
@@ -73,12 +68,13 @@ const StyledButton = withStyles({
         background: ' #fed41d',
         borderRadius: 3,
         color: 'Black',
-        height: 48,
         boxShadow: ' box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25)',
         borderRadius: '0.7rem',
         justifyContent: 'center',
         width: '17.875rem',
         height: '3rem',
+        marginTop: '2rem',
+        marginLeft: '64rem',
       },
       label: {
         textTransform: 'capitalize',
@@ -140,22 +136,22 @@ function UploadPage(){
         <Fix>
             <UploadMargin>
                 <Header></Header>
-                <ImageInput></ImageInput>
-                <WriteLogo>Write</WriteLogo>
-                    <TextInput>
-                        <input className='TextInput' onChange={onInputChange}></input>
-                    </TextInput>
+                    <ImageInput></ImageInput>
+                    <RightCol>
+                        <WriteLogo>Write</WriteLogo>
+                        <TextInput>
+                            <input className='TextInput' onChange={onInputChange}></input>
+                        </TextInput>
+                        <Explanation>
+                        원하는 배경을 글로 써주세요.  ex) 왼쪽 위에 해가있습니다.
+                        </Explanation>
+                    </RightCol>
+
                     <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
                         Done
                     </StyledButton>
-                    <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
-                        Done
-                    </StyledButton>
-                <Explanation>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy
-                </Explanation>
-                {loading ? <StyledLinearProgress/>:<></>}
-                {openModal ? <Modal closeModal={setOpenModal} imagesUrl={imagesUrl}/>:<></>}
+                    {loading ? <StyledLinearProgress/>:<></>}
+                    {openModal ? <Modal closeModal={setOpenModal} imagesUrl={imagesUrl}/>:<></>}
             </UploadMargin>
         </Fix>
     )

@@ -1,6 +1,7 @@
 import React from 'react';
 import './MainPage.css';
 import styled from 'styled-components';
+import { ExternalLink } from 'react-external-link';
 import AwesomeSlider from 'react-awesome-slider';
 import withAutoplay from 'react-awesome-slider/dist/autoplay';
 import 'react-awesome-slider/dist/styles.css';
@@ -14,53 +15,78 @@ function MainPage () {
 
   const StyledButton = withStyles({
     root: {
-      background: '#FF4D67',
+      background: ' #fed41d',
       borderRadius: 3,
-      border: 0,
-      color: 'white',
-      height: 48,
-      width: '286px',
-      padding: '0 30px',
-      boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-      left: '77%',
-      top: '20px',
-      
+      color: 'Black',
+      boxShadow: ' box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25)',
+      borderRadius: '0.7rem',
+      width: '17.875rem',
+      height: '3rem',
     },
+
     label: {
       textTransform: 'capitalize',
+      fontWeight: 'bold',
     },
   })(Button);
 
+
+
+
   return(
-    <div className = "background">
-      <head className = "logo"> Drawa </head>
-      <div className = "ellipse3" />
-      <div className = "ellipse2" />
-      <div className = "ellipse1" />
-      <div className = "mainHome">
-        <div className = "mainTitle">
-          <div className = "title">
-            <h1 className = "titleDrawWrite"> DRAW </h1>
-            <h3 className = "titlePicWhatYou"><span className="pictureBack">picture</span> what you</h3>
-            <h1 className = "titleDrawWrite"><span className="color"> WRITE </span></h1>
-            <p className = "explain">홈페이즈에 관련된 설명</p>
-            <Link to="/UploadPage"><StyledButton>Go To Draw </StyledButton></Link>
+    <div>
+      <div className = "background">
+        <head className = "logo"> Drawa </head>
+        <div className = "mainHome">
+          <div className = "mainImage" />
+          <div className = "mainTitle">
+            <div className = "title">
+              <h1 className = "drawTitle">
+                <span className = "drawColor">Draw <span className= "theTitle">the </span></span> BACKGROUND
+                <h5 className = "writeTitle"> of what you write</h5>
+              </h1>
+              <div className = "mainCol">
+                  <Link to="/UploadPage"><StyledButton>Go To Draw </StyledButton></Link>  
+                </div>
+            </div>
           </div>
         </div>
-        <div className = "mainImage" />
-
       </div>
-      <div className = "howWorks">How deos it works</div>
-      <div className='slide-resizer'>
-      <AutoplaySlider 
-        play={true}
-        cancelOnInteraction={false} // should stop playing on user interaction
-        interval={2000}
-        >
-        <div data-src="/img/homeSlide1.png" />
-        <div data-src="/img/homeSlide2.png" />
-        <div data-src="/img/homeSlide3.png" />
-      </AutoplaySlider>
+
+
+      <div className = "second">
+        <div calssName = "secondWrap">
+          <div className = "aboutUs">ABOUT US</div>
+          <div className = "explainUs">
+            <p>영어로 설명</p>
+            <p>저희 웹사이트는 그림의 배경을 만들어드리는 서비스 입니다. 직접 그림을 그리는것이 아니고 글을 쓰면 뒤에 배경이 자동으로 그려질수있습니다.
+            직접 배경을 생성할수있기 때문에 캐릭터의 저작권문제로부터 자유로워 질수있는 장점을 가지고있습니다.</p>
+          </div>
+          <ExternalLink href="https://github.com/wewaaa/wewaa" target="_blank"><StyledButton className = "gitButton">About Us</StyledButton></ExternalLink>
+          
+          <div class = "made">
+            <p><span classname = "byBold"> by </span> 김기현/Backend</p>
+            <p>나승미/Frontend</p>
+            <p>유제빈/Frontend</p>
+            <p>함우주/Ai,Backend</p>
+          </div> 
+        </div>
+      </div>
+
+
+      <div className = "third">
+        <div className = "howWorks">HOW IT WORK</div>
+          <div className='slide-resizer'>
+          <AutoplaySlider 
+            play={true}
+            cancelOnInteraction={false} // should stop playing on user interaction
+            interval={2000}
+          >
+            <div data-src="/img/homeSlide1.png" />
+            <div data-src="/img/homeSlide2.png" />
+            <div data-src="/img/homeSlide3.png" />
+          </AutoplaySlider>
+          </div>
       </div>
 
     </div>

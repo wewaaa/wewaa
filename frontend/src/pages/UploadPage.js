@@ -9,62 +9,21 @@ import Header from '../components/Header';
 import axios from "axios";
 
 const Fix=styled.div`
-    width: 1920px;
-    height: 1080px;
-    background: #EFEFEF;
-    text-align: center;
+    background-color: #373737;
 `;
 
-const BackCircle1=styled.div`
-    position: absolute;
-    width: 425px;
-    height: 406px;
-    left: 104px;
-    top: 148px;
-    background: #FF5E6C;
-    border-radius: 50%;
+const UploadMargin=styled.div`
+    width: 82rem;
+    margin: 0 auto;
+    position: flex;
+    color: red;
 `;
-const BackCircle2=styled.div`
-    position: absolute;
-    width: 279px;
-    height: 266px;
-    left: 330px;
-    top: 94px;
-    background: #E5E5E5;
-    border-radius: 50%;
-    
-`;
-const BackCircle3=styled.div`
-    position: absolute;
-    width: 273px;
-    height: 270px;
-    left: 1297px;
-    top: 325px;
-    background: #E5E5E5;
-    border-radius: 50%;
-`;
-const BackCircle4=styled.div`
-    position: absolute;
-    width: 66px;
-    height: 65px;
-    left: 1693px;
-    top: 260px;
-    background: #FFFFFF;
-    border-radius: 50%;
-`;
-const BackCircle5=styled.div`
-    position: absolute;
-    width: 66px;
-    height: 65px;
-    left: 1066px;
-    top: 755px;
-    background: #FFFFFF;
-    border-radius: 50%;
-`;
+
 const WriteLogo=styled.div`
     position: absolute;
-    width: 367px;
-    height: 194px;
+    width: 17.5rem;
+    height: 9.375rem;
+    margin: 14.125rem 0 10.75rem 14.813rem;
     left: 1413px;
     top: 393px;
     font-family: Poppins;
@@ -72,17 +31,19 @@ const WriteLogo=styled.div`
     font-weight: bold;
     font-size: 100px;
     line-height: 150px;
-    color: #FF5E6C;
+    color: #fed41d;
 `;
+
 const ImageInput=styled.div`
     position: absolute;
-    width: 636px;
-    height: 610px;
+    width: 33.813rem;
+    height: 33.813rem;  
     left: 271px;
     top: 260px;
-    background: #FFFFFF;
-    border-radius: 20px;
+    background: #000000;
+    border-radius: 1rem;
 `;
+
 const TextInput=styled.div`
     position: absolute;
     width: 681px;
@@ -105,24 +66,24 @@ const Explanation=styled.div`
     font-size: 18px;
     line-height: 21px;
     color: #000000;
-    `;
+`;
+
 const StyledButton = withStyles({
     root: {
-      position: 'absolute',
-      width: '286px',
-      height: '58px',
-      left: '850px',
-      top: '961px',
-      background: 'black',
-      borderRadius: 3,
-      border: 0,
-      color: 'white',
-      padding: '0 30px',
-      fontSize:'24px'
-    },
-    label: {
-      textTransform: 'capitalize',
-    },
+        background: ' #fed41d',
+        borderRadius: 3,
+        color: 'Black',
+        height: 48,
+        boxShadow: ' box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25)',
+        borderRadius: '0.7rem',
+        justifyContent: 'center',
+        width: '17.875rem',
+        height: '3rem',
+      },
+      label: {
+        textTransform: 'capitalize',
+        fontWeight: 'bold',
+      },
   })(Button);
 
   const StyledLinearProgress = withStyles({
@@ -177,23 +138,24 @@ function UploadPage(){
     };
     return (
         <Fix>
-            <Header></Header>
-            <BackCircle1/><BackCircle2/><BackCircle3/><BackCircle4/><BackCircle5/>
-            <ImageInput></ImageInput>
-            <WriteLogo>Write</WriteLogo>
-            <form onSubmit={onSubmit}>
-                <TextInput>
-                    <input className='TextInput' onChange={onInputChange}></input>
-                </TextInput>
-                <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
-                    Done
-                </StyledButton>
-            </form>
-            <Explanation>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy
-            </Explanation>
-            {loading ? <StyledLinearProgress/>:<></>}
-            {openModal ? <Modal closeModal={setOpenModal} imagesUrl={imagesUrl}/>:<></>}
+            <UploadMargin>
+                <Header></Header>
+                <ImageInput></ImageInput>
+                <WriteLogo>Write</WriteLogo>
+                <form onSubmit={onSubmit}>
+                    <TextInput>
+                        <input className='TextInput' onChange={onInputChange}></input>
+                    </TextInput>
+                    <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
+                        Done
+                    </StyledButton>
+                </form>
+                <Explanation>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy
+                </Explanation>
+                {loading ? <StyledLinearProgress/>:<></>}
+                {openModal ? <Modal closeModal={setOpenModal} imagesUrl={imagesUrl}/>:<></>}
+            </UploadMargin>
         </Fix>
     )
 }

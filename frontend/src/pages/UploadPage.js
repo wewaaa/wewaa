@@ -11,112 +11,66 @@ import axios from "axios";
 const Fix=styled.div`
     width: 1920px;
     height: 1080px;
-    background: #EFEFEF;
+    background: #373737;
     text-align: center;
 `;
 
-const BackCircle1=styled.div`
-    position: absolute;
-    width: 425px;
-    height: 406px;
-    left: 104px;
-    top: 148px;
-    background: #FF5E6C;
-    border-radius: 50%;
-`;
-const BackCircle2=styled.div`
-    position: absolute;
-    width: 279px;
-    height: 266px;
-    left: 330px;
-    top: 94px;
-    background: #E5E5E5;
-    border-radius: 50%;
-    
-`;
-const BackCircle3=styled.div`
-    position: absolute;
-    width: 273px;
-    height: 270px;
-    left: 1297px;
-    top: 325px;
-    background: #E5E5E5;
-    border-radius: 50%;
-`;
-const BackCircle4=styled.div`
-    position: absolute;
-    width: 66px;
-    height: 65px;
-    left: 1693px;
-    top: 260px;
-    background: #FFFFFF;
-    border-radius: 50%;
-`;
-const BackCircle5=styled.div`
-    position: absolute;
-    width: 66px;
-    height: 65px;
-    left: 1066px;
-    top: 755px;
-    background: #FFFFFF;
-    border-radius: 50%;
-`;
 const WriteLogo=styled.div`
     position: absolute;
-    width: 367px;
-    height: 194px;
-    left: 1413px;
-    top: 393px;
+    width: 280px;
+    height: 150px;
+    left: 1043px;
+    top: 413px;
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
     font-size: 100px;
     line-height: 150px;
-    color: #FF5E6C;
+    color: #FED41D;
 `;
 const ImageInput=styled.div`
     position: absolute;
-    width: 636px;
-    height: 610px;
-    left: 271px;
-    top: 260px;
-    background: #FFFFFF;
-    border-radius: 20px;
+    width: 541px;
+    height: 541px;
+    left: 215px;
+    top: 221px;
+    background: white;
+    border-radius: 4px;
 `;
 const TextInput=styled.div`
     position: absolute;
-    width: 681px;
-    height: 226px;
-    left: 1040px;
-    top: 514px;
+    width: 488px;
+    height: 205px;
+    left: 838px;
+    top: 523px;
     background: #FFFFFF;
-    border-radius: 10px;
+    border-radius: 4px;
 `;
 
 const Explanation=styled.div`
     position: absolute;
-    width: 681px;
-    height: 75px;
-    left: 1045px;
-    top: 755px;
-    font-family: Roboto;
+    width: 470px;
+    height: 27px;
+    left: 838px;
+    top: 735px;
+    font-family: Poppins;
     font-style: normal;
-    font-weight: normal;
+    font-weight: 600;
     font-size: 18px;
-    line-height: 21px;
-    color: #000000;
+    line-height: 27px;
+    color: #FFFFFF;
     `;
 const StyledButton = withStyles({
     root: {
       position: 'absolute',
       width: '286px',
       height: '58px',
-      left: '850px',
-      top: '961px',
-      background: 'black',
-      borderRadius: 3,
+      left: '1040px',
+      top: '786px',
+      background: '#FED41D',
+      borderRadius:'10px',
       border: 0,
-      color: 'white',
+      color: 'black',
       padding: '0 30px',
       fontSize:'24px'
     },
@@ -178,7 +132,6 @@ function UploadPage(){
     return (
         <Fix>
             <Header></Header>
-            <BackCircle1/><BackCircle2/><BackCircle3/><BackCircle4/><BackCircle5/>
             <ImageInput></ImageInput>
             <WriteLogo>Write</WriteLogo>
             <form onSubmit={onSubmit}>
@@ -190,7 +143,7 @@ function UploadPage(){
                 </StyledButton>
             </form>
             <Explanation>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy
+                <span>원하는 배경을 글로 써주세요. ex) 왼쪽 위에 해가있습니다.</span>
             </Explanation>
             {loading ? <StyledLinearProgress/>:<></>}
             {openModal ? <Modal closeModal={setOpenModal} imagesUrl={imagesUrl}/>:<></>}

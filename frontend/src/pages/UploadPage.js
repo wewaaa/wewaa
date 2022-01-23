@@ -142,14 +142,15 @@ function UploadPage(){
                 <Header></Header>
                 <ImageInput></ImageInput>
                 <WriteLogo>Write</WriteLogo>
-                <form onSubmit={onSubmit}>
                     <TextInput>
                         <input className='TextInput' onChange={onInputChange}></input>
                     </TextInput>
                     <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
                         Done
                     </StyledButton>
-                </form>
+                    <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
+                        Done
+                    </StyledButton>
                 <Explanation>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's standard dummy
                 </Explanation>

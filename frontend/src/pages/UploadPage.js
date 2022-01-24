@@ -9,74 +9,77 @@ import Header from '../components/Header';
 import axios from "axios";
 
 const Fix=styled.div`
-    width: 1920px;
-    height: 1080px;
-    background: #373737;
-    text-align: center;
+    width: 100%;
+    height: 1115px;
+    background-color: #373737;
 `;
 
+const UploadMargin=styled.div`
+    width: 82rem;
+    margin: 0 auto;
+`;
+
+const RightCol=styled.div`
+    float: right;
+`;
 const WriteLogo=styled.div`
-    position: absolute;
-    width: 280px;
-    height: 150px;
-    left: 1043px;
-    top: 413px;
+    width: 17.5rem;
+    height: 6.8rem;
     font-family: Poppins;
-    font-style: normal;
     font-weight: bold;
-    font-size: 100px;
-    line-height: 150px;
-    color: #FED41D;
+    font-size: 6.25rem;
+    color: #fed41d;
+    margin-top: 22.5rem;
+    z-index: 0;
+    text-aline: right;
 `;
+
 const ImageInput=styled.div`
-    position: absolute;
-    width: 541px;
-    height: 541px;
-    left: 215px;
-    top: 221px;
-    background: white;
-    border-radius: 4px;
+    width: 33.813rem;
+    height: 33.813rem;  
+    margin-top: 8rem;
+    background: #ffffff;
+    border-radius: 1rem;
+    float: left;
 `;
+
 const TextInput=styled.div`
-    position: absolute;
-    width: 488px;
-    height: 205px;
-    left: 838px;
-    top: 523px;
-    background: #FFFFFF;
-    border-radius: 4px;
+    width: 30.5rem;
+    height: 12.813rem;
+    border-radius: 1rem;
+    float: right;
+    background-color: #fff;
+    z-index: 1;
+    margin-bottom: 2rem;
 `;
 
 const Explanation=styled.div`
-    position: absolute;
-    width: 470px;
-    height: 27px;
-    left: 838px;
-    top: 735px;
+    width: 30.5rem;
+    margin-top: 0rem;
     font-family: Poppins;
-    font-style: normal;
+    font-size: 1.125rem;
     font-weight: 600;
-    font-size: 18px;
-    line-height: 27px;
-    color: #FFFFFF;
-    `;
+    text-aline: left;
+    color: #ffffff;
+`;
+
 const StyledButton = withStyles({
     root: {
-      position: 'absolute',
-      width: '286px',
-      height: '58px',
-      left: '1040px',
-      top: '786px',
-      background: '#FED41D',
-      borderRadius:'10px',
-      border: 0,
-      color: 'black',
-      padding: '0 30px',
-      fontSize:'24px'
-    },
-    label: {
-      textTransform: 'capitalize',
-    },
+        background: ' #fed41d',
+        borderRadius: 3,
+        color: 'Black',
+        boxShadow: ' box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25)',
+        borderRadius: '0.7rem',
+        justifyContent: 'center',
+        width: '17.875rem',
+        height: '3rem',
+        marginTop: '2rem',
+        marginLeft: '64rem',
+      },
+      label: {
+        textTransform: 'capitalize',
+        fontWeight: 'bold',
+      },
   })(Button);
 
   const StyledLinearProgress = withStyles({
@@ -131,22 +134,25 @@ function UploadPage(){
     };
     return (
         <Fix>
-            <Header></Header>
-            <ImageInput></ImageInput>
-            <WriteLogo>Write</WriteLogo>
-            <form onSubmit={onSubmit}>
-                <TextInput>
-                    <input className='TextInput' onChange={onInputChange}></input>
-                </TextInput>
-                <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
-                    Done
-                </StyledButton>
-            </form>
-            <Explanation>
-                <span>원하는 배경을 글로 써주세요. ex) 왼쪽 위에 해가있습니다.</span>
-            </Explanation>
-            {loading ? <StyledLinearProgress/>:<></>}
-            {openModal ? <Modal closeModal={setOpenModal} imagesUrl={imagesUrl}/>:<></>}
+            <UploadMargin>
+                <Header></Header>
+                    <ImageInput></ImageInput>
+                    <RightCol>
+                        <WriteLogo>Write</WriteLogo>
+                        <TextInput>
+                            <input className='TextInput' onChange={onInputChange}></input>
+                        </TextInput>
+                        <Explanation>
+                        원하는 배경을 글로 써주세요.  ex) 왼쪽 위에 해가있습니다.
+                        </Explanation>
+                    </RightCol>
+
+                    <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
+                        Save As PDF
+                    </StyledButton>
+                    {loading ? <StyledLinearProgress/>:<></>}
+                    {openModal ? <Modal closeModal={setOpenModal} imagesUrl={imagesUrl}/>:<></>}
+            </UploadMargin>
         </Fix>
     )
 }

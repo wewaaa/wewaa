@@ -1,142 +1,167 @@
 .background{
     width: 100%;
-    height: 100%;
-    background-color: #efefef;
+    height: 45rem;
+    background-color: #373737;
 }
-.logo{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 8vh;
-    font-family: Poppins;
-    font-weight: bold;
-    font-size: 1.5rem;
-}
-
 .mainHome{
     width: 100%;
-    height: 100%;
-    padding-bottom: 8rem;
-    display: flex;
-    margin: 0 auto;
-
+    height: 15rem;
+    justify-content: center;
 }
-
+.title{
+    z-index: 0;
+    position:relative;
+    overflow: hidden;
+    margin-top: -80rem;
+    height: 45rem;
+}
 .mainImage{
-    width: 650px;
-    height: 650px;
-    margin: 6rem 0 0 20rem;
-    margin-top: 3%;
-    margin-right: 6%;
-    background-image: url('../../public/img/main.png');
-    background-position: right;
+    width: 40rem;
+    height: 53rem;
+    margin-top: 30rem;
+    margin-left: 38%;
     background-repeat: no-repeat;
-    background-size: cover;
+    transform: scale(1.5);
     position: relative;
+    z-index: 1;
+    background-image: url('../../public/img/simpson.png');
 }
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
-.titleDrawWrite{
-    color: #FF4D67;
-    margin-left: 30%;
-    margin-top: 11rem;
-    position: relative;
-    font-family: Poppins;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+.drawTitle{
+    width: 82rem;
+    height: 33rem;
+    margin: 0 auto;   
+    font-family: Roboto;
+    font-size: 10.8rem;
     font-weight: bold;
+    font-stretch: condensed;
+    letter-spacing: 18px;
     text-align: left;
-    font-size: 7rem;
-    text-shadow: 7px 7px 0px #FFFFFF;
-
-    line-height: 3rem;
+    color: #373737;
+    margin-top: 0rem;
+    line-height: 120px;
+    -webkit-text-stroke: 3px white;
+    text-shadow: 10px 10px 0px #FED41D;
+}
+.drawColor{
+    color:#ffffff;
+    -webkit-text-stroke: 3px #ffffff;
+    width: 30rem;
+    text-shadow: none;
+    letter-spacing: 8px;
+    font-size: 9rem;
+}
+.writeTitle{
+    color:#ffffff;
+    font-size: 3.5rem;
+    letter-spacing: 3px;
+    width: 31rem;
+    height: 4.5rem;
+    margin: 2rem 0 0 51rem;
+    line-height: 6rem;
+    text-shadow: none;
+}
+.theTitle{
+    font-size: 4.25rem;
+    font-weight: bold;
+    width: 29.144rem;
+    text-align: right;
+    text-shadow: none;
 }
 
-.color{
-    color:#000000;
-    margin: -1.2rem 0rem 0rem 15rem;
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+.koeanTitle{
+    color:#FED41D;
+    font-family: Jua;
+    text-align: right;
+    margin-top: 0rem;
+    float: right;   
 }
-.pictureBack{
-    background: linear-gradient(60deg, #FF4D67, #efefef);
+
+.mainCol{
+    width: 82rem;
+    height: 8rem;
+    margin: 0 auto;
 }
-@import url('https://fonts.googleapis.com/css2?family=PT+Serif&display=swap');
-.titlePicWhatYou{
-    width: 42.75rem;
-    height: 5.688rem;
-    top: 16.3rem;
-    left: 11.375rem;
-    font-family: 'PT Serif', serif;
-    font-size: 4.375rem;
-    font-weight: normal;
+.drawBut{
+    width: 18rem;
+    margin-top: -2rem;
+    margin-left: 60rem;
+}
+
+.second{
+    width: 82rem;
+    height: 35rem;
+    margin: 0 auto;
+}
+.aboutUs{
+    width: 13rem;
+    height: 3.375rem;
+    font-family: Roboto;
+    font-size: 2.5rem;
+    font-weight: 600;
     text-align: left;
     color: #000;
-    margin-left: 5%;
+    margin-top: 5rem
+}
+.engExpalin{
+    font-family: roboto;
+}
+.explainUs{
+    width: 18rem;
+    margin-right: 63%;
+    line-height: 23px;
+    float: left;
+    font-family: Poppins;
+    font-weight: 600;
+}
+.gitButton{
+    margin-top: 2rem;
+}
+.made{
+    float: right;
+    margin-top: 3rem;
+    text-align: right;
+    font-size: 1rem;
+    font-weight:normal;
+    white-space: normal;
+    font-family: Jua;
+    white-space:normal;
+    line-height: 1rem;
+}
+
+
+.third{
+    margin: 0 auto;
+    width: 100%;
+    background-color:#efefef;
+    z-index: 2;
     position: absolute;
 }
-@import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&display=swap');
 .howWorks{
     font-weight:600;
-    font-size: 2rem;
-    margin-left: 8%;
-    margin-top: 0rem;
+    font-size: 3.25rem;
     color: #000000;
-    font-family: 'PT Serif', serif;
-    text-align: left;
-    padding-bottom: 3rem;
-    position:absolute;
-    z-index: 1;
-    top: 52rem;
-    left: 2rem;
-}
-
-.ellipse1{
-    width: 25rem;
-    height: 25rem;
-    left: -200px;
-    position: fixed;
-    border-radius: 50%;
-    background-color: #ffffff;
-    z-index: 0;
-  }
-
-.ellipse2{
-    width: 10rem;
-    height: 10rem;
-    margin: 40rem 15rem 0 52rem;
-    border-radius: 50%;
-    background-color: #ffffff;
-    position: fixed;
-}
-
-.ellipse3{
-    width: 2.3rem;
-    height: 2.3rem;
-    margin: 6rem 15rem 0 49rem;
-    border-radius: 50%;
-    background-color: #ccc;
-    position: fixed;
-
-}
-
-.explain{
-    width: 29.563rem;
-    height: 3.25rem;
-    margin-left: 49%;
-    margin-top: 0rem;
     font-family: Roboto;
-    font-size: 1.125rem;
-    font-weight: normal;
-    color: #000;
-    text-align: right;
-
-    position: relative;
+    z-index: 1;
+    padding: 1rem;
+    text-align: center;
+    text-shadow: 3px 3px 0px #FED41D;
 }
-
-.imageResize{
-    width: 70%;
-    height: 50%;
-    border-radius: 40%;
-}
-
 .slide-resizer{
     margin: 0 auto;
-    filter: drop-shadow(10px 10px 10px rgb(117, 117, 117));
-    width: 65%;
+    filter: drop-shadow(5px 5px 5px rgb(117, 117, 117));
+    width: 70%;
+    z-index: 3;
+}
+
+.fourth{
+    width: 82rem;
+    margin: 0 auto;
+    margin-top: 50%;
+    background-color:#ffffff;
+}
+.space{
+    width: 30rem;
+    height: 5rem;
 }

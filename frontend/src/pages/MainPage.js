@@ -8,6 +8,7 @@ import 'react-awesome-slider/dist/styles.css';
 import { Route,Routes,Link} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import Header from '../components/Header';
 
 function MainPage () {
 
@@ -36,7 +37,7 @@ function MainPage () {
   return(
     <div>
       <div className = "background">
-        <head className = "logo"> Drawa </head>
+        <Header></Header>
         <div className = "mainHome">
           <div className = "mainImage" />
           <div className = "mainTitle">
@@ -65,10 +66,10 @@ function MainPage () {
           <ExternalLink href="https://github.com/wewaaa/wewaa" target="_blank"><StyledButton className = "gitButton">About Us</StyledButton></ExternalLink>
           
           <div class = "made">
-            <p><span classname = "byBold"> by </span> 김기현/Backend</p>
+            <b><p>by 김기현/Backend</p>
             <p>나승미/Frontend</p>
             <p>유제빈/Frontend</p>
-            <p>함우주/Ai,Backend</p>
+            <p>함우주/Ai,Backend</p></b>
           </div> 
         </div>
       </div>

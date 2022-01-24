@@ -10,7 +10,7 @@ import axios from "axios";
 
 const Fix=styled.div`
     width: 100%;
-    height: 100%;
+    height: 1115px;
     background-color: #373737;
 `;
 
@@ -148,7 +148,7 @@ function UploadPage(){
                     </RightCol>
 
                     <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
-                        Done
+                        Save As PDF
                     </StyledButton>
                     {loading ? <StyledLinearProgress/>:<></>}
                     {openModal ? <Modal closeModal={setOpenModal} imagesUrl={imagesUrl}/>:<></>}

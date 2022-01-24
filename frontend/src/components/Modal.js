@@ -15,7 +15,7 @@ const Fixed=styled.div`
     background: #5F5F5F;
     background-color: rgba( 138, 138, 138, 0.6);
     z-index: 1;
-    `
+`;
 const ModalContainer=styled.div`
     position: absolute;
     width: 775px;
@@ -53,7 +53,6 @@ const ButtonBox=styled.div`
     height: 58px;
     left: 85px;
     top: 561px;
-
 `;
 
 

@@ -44,11 +44,13 @@ function MainPage () {
             <div className = "title">
               <h1 className = "drawTitle">
                 <span className = "drawColor">Draw <span className= "theTitle">the </span></span> BACKGROUND
-                <h5 className = "writeTitle"> of what you write</h5>
+                <h5 className = "writeTitle"> of what you write
+                </h5>
               </h1>
               <div className = "mainCol">
-                  <Link to="/UploadPage"><StyledButton>Go To Draw </StyledButton></Link>  
-                </div>
+                <div className = "drawBut">
+                  <Link to="/UploadPage"><StyledButton>Go To Draw </StyledButton></Link></div>
+              </div>
             </div>
           </div>
         </div>
@@ -59,17 +61,17 @@ function MainPage () {
         <div calssName = "secondWrap">
           <div className = "aboutUs">ABOUT US</div>
           <div className = "explainUs">
-            <p>영어로 설명</p>
-            <p>저희 웹사이트는 그림의 배경을 만들어드리는 서비스 입니다. 직접 그림을 그리는것이 아니고 글을 쓰면 뒤에 배경이 자동으로 그려질수있습니다.
-            직접 배경을 생성할수있기 때문에 캐릭터의 저작권문제로부터 자유로워 질수있는 장점을 가지고있습니다.</p>
+            <p><span className ="engExplain">This website is a service that draws pictures of what you write. 
+            You can write whatever you want and it will be drawn in the background. You can create your own picture.</span></p>
+            <p>저희는 사용자가 글자를 입력했을 때 배경을 그려주는 서비스를 제공합니다. 원하는 배경을 글로 작성하여 그릴 수 있기 때문에 자신만의 개성 있는 그림을 만들 수 있는 장점을 가지고 있습니다.</p>
           </div>
           <ExternalLink href="https://github.com/wewaaa/wewaa" target="_blank"><StyledButton className = "gitButton">About Us</StyledButton></ExternalLink>
           
           <div class = "made">
-            <b><p>by 김기현/Backend</p>
-            <p>나승미/Frontend</p>
-            <p>유제빈/Frontend</p>
-            <p>함우주/Ai,Backend</p></b>
+            <p>by 김기현(GiHyun Kim)/AI,Backend,DevOps</p>
+            <p>나승미(Seungmi Na)/Frontend,Design </p>
+            <p>유제빈(Jaebin Yu)/Frontend</p>
+            <p>함우주(Woojoo Hahm)/AI,Backend</p>
           </div> 
         </div>
       </div>
@@ -83,11 +85,15 @@ function MainPage () {
             cancelOnInteraction={false} // should stop playing on user interaction
             interval={2000}
           >
-            <div data-src="/img/homeSlide1.png" />
-            <div data-src="/img/homeSlide2.png" />
-            <div data-src="/img/homeSlide3.png" />
+            <div data-src="/img/simpson_Slider1.png" />
+            <div data-src="/img/simpson_Slider2.png" />
+            <div data-src="/img/simpson_Slider3.png" />
           </AutoplaySlider>
           </div>
+      </div>
+
+      <div className = "fourth">
+        <div className = "space"></div>
       </div>
 
     </div>

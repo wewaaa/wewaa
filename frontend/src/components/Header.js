@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import { Route,Routes,Link} from 'react-router-dom';
 
 const Logo=styled.div`
     display: flex;
@@ -12,18 +13,10 @@ const Logo=styled.div`
     color: #ffffff;
 `;
 
-const Line=styled.div`
-    position: absolute;
-    width: 100%;
-    height: 0px;
-    top: 4rem;
-    border: 1px solid #FFFFFF;
-`;
-
 const Header = () => {
     return (
         <>
-            <Logo>Drawa</Logo>
+            <Link to = "../" ><Logo>Drawa</Logo></Link>
         </>
     )
 }

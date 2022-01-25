@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useRef} from 'react'
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
@@ -7,6 +7,11 @@ import LinearProgress, { LinearProgressProps } from '@material-ui/core/LinearPro
 import Modal from '../components/Modal';
 import Header from '../components/Header';
 import axios from "axios";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { exportComponentAsJPEG } from 'react-component-export-image';
+
+
 
 const Fix=styled.div`
     width: 100%;
@@ -30,7 +35,6 @@ const WriteLogo=styled.div`
     font-size: 6.25rem;
     color: #fed41d;
     margin-top: 22.5rem;
-    z-index: 0;
     text-aline: right;
 `;
 
@@ -98,11 +102,27 @@ const StyledButton = withStyles({
   
 
 function UploadPage(){
-    const [openModal,setOpenModal]=useState(false);
     const [loading,setLoading]=useState(false);
     const [sendText,setSendText]=useState('');
     const [imagesUrl,setImagesUrl]=useState([]);
+    
+    //저장 src={`${image}?w=16&h=16&fit=crop&auto=format`}
+    const componentRef = useRef();
 
+    const ComponentToPrint = React.forwardRef((props, ref) => (
+      <img ref={ref} alt='이미지' src={'img/background.png'} width={'100%'}/>
+    ));
+
+
+
+
+    const handleImgError = (e) => {
+        e.target.src = '../../public/img/simpson.png';
+    }
+    const [value, setValue] = React.useState('Controlled');
+    const handleChange = (event) => {
+      setValue(event.target.value);
+    };
  
     
     const onInputChange=async(e)=>{
@@ -113,6 +133,7 @@ function UploadPage(){
     const StartSwitch = ()=>{
             console.log(sendText)
     }
+    
     const onSubmit =async(e)=>{
         e.preventDefault();
         const data ={
@@ -123,8 +144,7 @@ function UploadPage(){
             'http://localhost/inference?prompt='+sendText,data
          ).then(response=>{
             console.log(response);
-            setImagesUrl(response.data.images_url)
-            setOpenModal(true);
+            setImagesUrl(response.data.images_url);
         })
         .catch(error => {
             alert('false')
@@ -135,24 +155,38 @@ function UploadPage(){
     return (
         <Fix>
             <UploadMargin>
-                <Header></Header>
-                    <ImageInput></ImageInput>
+                <Header/>
+                <ImageInput>
+                    <ComponentToPrint ref={componentRef} />
+                </ImageInput>
+                <form onSubmit={onSubmit}>
                     <RightCol>
                         <WriteLogo>Write</WriteLogo>
                         <TextInput>
-                            <input className='TextInput' onChange={onInputChange}></input>
+                            <TextField
+                                id="standard-multiline-static"
+                                label="Multiline"
+                                multiline
+                                rows={4}
+                                defaultValue="Default Value"
+                                variant="standard"
+                                onChange={onInputChange}
+                                 />
                         </TextInput>
                         <Explanation>
-                        원하는 배경을 글로 써주세요.  ex) 왼쪽 위에 해가있습니다.
+                                원하는 배경을 글로 써주세요.  ex) 왼쪽 위에 해가있습니다.
                         </Explanation>
                     </RightCol>
-
                     <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
-                        Save As PDF
+                        Apply
                     </StyledButton>
-                    {loading ? <StyledLinearProgress/>:<></>}
-                    {openModal ? <Modal closeModal={setOpenModal} imagesUrl={imagesUrl}/>:<></>}
+                    <StyledButton variant="contained" onClick={() => exportComponentAsJPEG(componentRef)}>
+                        Apply
+                    </StyledButton>
+                    
+                </form>
             </UploadMargin>
+            {loading ? <StyledLinearProgress/>:<></>}
         </Fix>
     )
 }

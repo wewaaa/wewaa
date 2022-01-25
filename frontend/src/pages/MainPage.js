@@ -1,6 +1,5 @@
 import React from 'react';
 import './MainPage.css';
-import styled from 'styled-components';
 import { ExternalLink } from 'react-external-link';
 import AwesomeSlider from 'react-awesome-slider';
 import withAutoplay from 'react-awesome-slider/dist/autoplay';

@@ -118,7 +118,7 @@ function UploadPage(){
 
 
 
-    //이미지를 파일로 저장하기 위한 함수 src={`${image}?w=16&h=16&fit=crop&auto=format`}
+    //이미지를 파일로 저장하기 위한 함수 src={`${image}?w=16&h=16&fit=crop&auto=format`}.
     const componentRef = useRef();
 
     const ComponentToPrint = React.forwardRef((props, ref) => (

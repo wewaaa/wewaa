@@ -2,14 +2,12 @@ import React,{useState,useEffect,useRef} from 'react'
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import ShareButton from '../components/ShareButton';
 import LinearProgress, { LinearProgressProps } from '@material-ui/core/LinearProgress';
-import Modal from '../components/Modal';
 import Header from '../components/Header';
 import axios from "axios";
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { exportComponentAsJPEG } from 'react-component-export-image';
+import default_Img from "./background.png";
 
 
 
@@ -39,7 +37,7 @@ const WriteLogo=styled.div`
 `;
 
 const ImageInput=styled.div`
-    width: 33.813rem;
+    width: 43.813rem;
     height: 33.813rem;  
     margin-top: 8rem;
     background: #ffffff;
@@ -55,6 +53,7 @@ const TextInput=styled.div`
     background-color: #fff;
     z-index: 1;
     margin-bottom: 2rem;
+
 `;
 
 const Explanation=styled.div`
@@ -65,6 +64,10 @@ const Explanation=styled.div`
     font-weight: 600;
     text-aline: left;
     color: #ffffff;
+`;
+const ButtonLoc=styled.div`
+    width: 50rem;
+    margin-left: 41rem;
 `;
 
 const StyledButton = withStyles({
@@ -77,8 +80,8 @@ const StyledButton = withStyles({
         justifyContent: 'center',
         width: '17.875rem',
         height: '3rem',
-        marginTop: '2rem',
-        marginLeft: '64rem',
+        marginTop: '6rem',
+        marginLeft: '5rem',
       },
       label: {
         textTransform: 'capitalize',
@@ -99,31 +102,33 @@ const StyledButton = withStyles({
         background:"#000000"
     },
   })(LinearProgress);
-  
+
+
 
 function UploadPage(){
     const [loading,setLoading]=useState(false);
     const [sendText,setSendText]=useState('');
-    const [imagesUrl,setImagesUrl]=useState([]);
+    const [imagesUrl,setImagesUrl]=useState('');
+
+
+    //URL이미지가 없을때 기본 배경이미지 설정 
     
+    const onErrorImg = (e) => {
+        e.target.src = default_Img;
+    }
+
+
+
     //저장 src={`${image}?w=16&h=16&fit=crop&auto=format`}
     const componentRef = useRef();
 
     const ComponentToPrint = React.forwardRef((props, ref) => (
-      <img ref={ref} alt='이미지' src={'img/background.png'} width={'100%'}/>
+      <img ref={ref} alt='이미지' src={imagesUrl} width={'100%'}
+      onError={onErrorImg}
+ 
+      />
     ));
 
-
-
-
-    const handleImgError = (e) => {
-        e.target.src = '../../public/img/simpson.png';
-    }
-    const [value, setValue] = React.useState('Controlled');
-    const handleChange = (event) => {
-      setValue(event.target.value);
-    };
- 
     
     const onInputChange=async(e)=>{
         const text=e.target.value;
@@ -164,25 +169,24 @@ function UploadPage(){
                         <WriteLogo>Write</WriteLogo>
                         <TextInput>
                             <TextField
-                                id="standard-multiline-static"
-                                label="Multiline"
+                                id="outlined-multiline-static"
                                 multiline
-                                rows={4}
-                                defaultValue="Default Value"
-                                variant="standard"
-                                onChange={onInputChange}
-                                 />
-                        </TextInput>
+                                placeholder='Text'
+                                style={{'width': "30.5rem" , 'height':"23px"}}
+                                />
+                            </TextInput>
                         <Explanation>
                                 원하는 배경을 글로 써주세요.  ex) 왼쪽 위에 해가있습니다.
                         </Explanation>
                     </RightCol>
-                    <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
-                        Apply
-                    </StyledButton>
-                    <StyledButton variant="contained" onClick={() => exportComponentAsJPEG(componentRef)}>
-                        Apply
-                    </StyledButton>
+                    <ButtonLoc>
+                        <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
+                            Apply
+                        </StyledButton>
+                        <StyledButton variant="contained" onClick={() => exportComponentAsJPEG(componentRef)}>
+                            Save As JPG
+                        </StyledButton>
+                    </ButtonLoc>
                     
                 </form>
             </UploadMargin>

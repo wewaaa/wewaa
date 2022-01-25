@@ -111,15 +111,14 @@ function UploadPage(){
     const [imagesUrl,setImagesUrl]=useState('');
 
 
-    //URL이미지가 없을때 기본 배경이미지 설정 
-    
+    //URL이미지가 없을때 배경이미지(초원과 파란하늘)가 기본으로 나오게하는 함수
     const onErrorImg = (e) => {
         e.target.src = default_Img;
     }
 
 
 
-    //저장 src={`${image}?w=16&h=16&fit=crop&auto=format`}
+    //이미지를 파일로 저장하기 위한 함수 src={`${image}?w=16&h=16&fit=crop&auto=format`}
     const componentRef = useRef();
 
     const ComponentToPrint = React.forwardRef((props, ref) => (
@@ -139,6 +138,7 @@ function UploadPage(){
             console.log(sendText)
     }
     
+    //텍스트를 서버에 전달하기 위한 함수
     const onSubmit =async(e)=>{
         e.preventDefault();
         const data ={

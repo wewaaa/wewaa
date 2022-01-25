@@ -10,7 +10,7 @@ import axios from "axios";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { exportComponentAsJPEG } from 'react-component-export-image';
-import Save from './Save';
+
 
 
 const Fix=styled.div`
@@ -106,15 +106,14 @@ function UploadPage(){
     const [sendText,setSendText]=useState('');
     const [imagesUrl,setImagesUrl]=useState([]);
     
-    //저장을 담당
+    //저장 src={`${image}?w=16&h=16&fit=crop&auto=format`}
     const componentRef = useRef();
 
     const ComponentToPrint = React.forwardRef((props, ref) => (
-        <ImageInput> <img ref={ref} className='saveImage' alt='사과' src='img/background.png'width='100px'
-        height='100px'/></ImageInput>
+      <img ref={ref} alt='이미지' src={'img/background.png'} width={'100%'}/>
     ));
 
-    
+
 
 
     const handleImgError = (e) => {
@@ -158,12 +157,7 @@ function UploadPage(){
             <UploadMargin>
                 <Header/>
                 <ImageInput>
-                    <img 
-                        alt='이미지'
-                        src={imagesUrl}
-                        width='100px'
-                        height='100px'
-                    />
+                    <ComponentToPrint ref={componentRef} />
                 </ImageInput>
                 <form onSubmit={onSubmit}>
                     <RightCol>
@@ -186,15 +180,13 @@ function UploadPage(){
                     <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
                         Apply
                     </StyledButton>
-                </form>
-                <React.Fragment>
-                    <ComponentToPrint ref={componentRef} />
-                    <StyledButton variant="contained" onClick={() => <Save/>} >
-                        Save As PDF
+                    <StyledButton variant="contained" onClick={() => exportComponentAsJPEG(componentRef)}>
+                        Apply
                     </StyledButton>
-                </React.Fragment>
-                {loading ? <StyledLinearProgress/>:<></>}
+                    
+                </form>
             </UploadMargin>
+            {loading ? <StyledLinearProgress/>:<></>}
         </Fix>
     )
 }

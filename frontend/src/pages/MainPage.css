@@ -1,12 +1,12 @@
 .background{
     width: 100%;
-    height: 45rem;
+    height: 48rem;
     background-color: #373737;
 }
 .mainHome{
-    width: 100%;
+    width: 82rem;
     height: 15rem;
-    justify-content: center;
+    margin: 0 auto;
 }
 .title{
     z-index: 0;
@@ -16,15 +16,15 @@
     height: 45rem;
 }
 .mainImage{
-    width: 40rem;
-    height: 53rem;
-    margin-top: 30rem;
-    margin-left: 38%;
+    width: 46rem;
+    height: 58rem;
+    margin-top: 27rem;
+    margin-left: 10rem;
     background-repeat: no-repeat;
-    transform: scale(1.5);
+    transform: scale(1.3);
     position: relative;
     z-index: 1;
-    background-image: url('../../public/img/simpson.png');
+    background-image: url('../../public/img/main_Simpson.png');
 }
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
 .drawTitle{
@@ -91,7 +91,7 @@
 
 .second{
     width: 82rem;
-    height: 35rem;
+    height: 38rem;
     margin: 0 auto;
 }
 .aboutUs{
@@ -102,19 +102,26 @@
     font-weight: 600;
     text-align: left;
     color: #000;
-    margin-top: 5rem
-}
-.engExpalin{
-    font-family: roboto;
+    margin-top: 10rem;
+    text-shadow: 3px 3px 0px #FED41D;
 }
 .explainUs{
     width: 18rem;
     margin-right: 63%;
-    line-height: 23px;
+    line-height: 25px;
     float: left;
-    font-family: Poppins;
+    font-family: Roboto;
     font-weight: 600;
+    font-size: large;
 }
+
+.korExplain{
+    font-family: Jua;
+    font-weight: 400;
+    line-height: 25px;
+    font-size: large;
+}
+
 .gitButton{
     margin-top: 2rem;
 }

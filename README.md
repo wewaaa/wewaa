@@ -36,10 +36,10 @@ E&M사업(Entertainment & Media)에서 디지털화가 끊임 없이 진행되�
 
 #  :inbox_tray: Tech Stack
 
-|프론트앤드|백엔드|AI|DevOps|Etc|
-|:---:|:---:|:---:|:---:|:---:|
-|<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">| <img src="https://img.shields.io/badge/-FastAPI-%23009688?style=for-the-badge&logo=FastAPI&logoColor=white">|<img src="https://img.shields.io/badge/-PyTorch-%23EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white">|<img src="https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">| <img src="https://img.shields.io/badge/-Grafana-%23F46800?style=for-the-badge&logo=grafana&logoColor=white">
-|<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">|<img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=MongoDB&logoColor=white">||<img src="https://img.shields.io/badge/-NGINX-%23009639?style=for-the-badge&logo=NGINX&logoColor=white">|<img src="https://img.shields.io/badge/-Prometheus-%23E6522C?style=for-the-badge&logo=Prometheus&logoColor=white">
+|Front-end|Back-end|AI|DevOps|Etc|DB|
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">| <img src="https://img.shields.io/badge/-FastAPI-%23009688?style=for-the-badge&logo=FastAPI&logoColor=white">|<img src="https://img.shields.io/badge/-PyTorch-%23EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white">|<img src="https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">| <img src="https://img.shields.io/badge/-Grafana-%23F46800?style=for-the-badge&logo=grafana&logoColor=white">|<img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=MongoDB&logoColor=white">
+|<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">|||<img src="https://img.shields.io/badge/-NGINX-%23009639?style=for-the-badge&logo=NGINX&logoColor=white">|<img src="https://img.shields.io/badge/-Prometheus-%23E6522C?style=for-the-badge&logo=Prometheus&logoColor=white">
 |||||<img src="https://img.shields.io/badge/-Google%20Cloud-4285F4?style=for-the-badge&logo=Google Cloud&logoColor=white">|
 
  
@@ -113,14 +113,7 @@ E&M사업(Entertainment & Media)에서 디지털화가 끊임 없이 진행되�
 |:---:|:---:|:---:|:---:|
 |Back-end, AI|AI|Front-end, UI/UX|Front-end| 
   
-  Frontend : React NativE
-WSGI : Gunicorn
-Backend : Flask
-Image Processing : TensorFlow
-Client and line drawing Data : MySQL
-Development Environment : Visual studio code, colab
-Docker
-Google Cloud Platform
+
    
    
 

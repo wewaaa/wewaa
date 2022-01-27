@@ -119,6 +119,7 @@ function UploadPage(){
     const [imagesUrlList,setImagesUrlList]=useState([]);
     const [imagesUrl,setImagesUrl]=useState('img/background.png');
 
+
     //이미지 리스트 on/off
     const checkList=()=>{
         setOpenImageList(true);
@@ -165,6 +166,7 @@ function UploadPage(){
     }
     
     // API 실행
+
     const onSubmit =async(e)=>{
         e.preventDefault();
         const data ={

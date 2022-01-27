@@ -1,8 +1,15 @@
-팀원
-김기현
-나승미
-유제빈
-함우주
+
+
+ # :office: Member
+ |:sunglasses:김기현(Leader)|:laughing:함우주|:stuck_out_tongue_winking_eye:나승미|:joy:유제빈|
+|:---:|:---:|:---:|:---:|
+| Back-end  |AI  |Web Desginer, |Web Desginer,| 
+|    Front-end developer       |   AI inference             |   UI/UX Desginer              |  Front-end developer
+|AI Traning|||
+|DevOps|||
+   
+   
+
 
 # :triangular_flag_on_post: Production Background
 
@@ -106,17 +113,6 @@ E&M사업(Entertainment & Media)에서 디지털화가 끊임 없이 진행되�
  - 72자를 넘기지 않고 제목과 구분되고 위해 한칸을 띄워 작성한다.
  
  
-
-
- # :office: Member
- |:sunglasses:김기현(Leader)|:laughing:함우주|:stuck_out_tongue_winking_eye:나승미|:joy:유제빈|
-|:---:|:---:|:---:|:---:|
-| Back-end  |AI  |Web Desginer, |Web Desginer,| 
-|    Front-end developer       |   AI inference             |   UI/UX Desginer              |  Front-end developer
-|AI Traning|||
-|DevOps|||
-   
-   
 
 
 

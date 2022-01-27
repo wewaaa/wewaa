@@ -21,7 +21,7 @@ from typing import Any, Callable, Dict, Iterable, List, Tuple
 
 import jax
 import jax.numpy as jnp
-from dalle_mini.model import DalleBart
+from dalle_mini.model import CustomFlaxBartForConditionalGeneration as DalleBart
 from starlette.responses import JSONResponse
 from vqgan_jax.modeling_flax_vqgan import VQModel
 from transformers import AutoTokenizer, CLIPProcessor, FlaxCLIPModel
@@ -45,8 +45,8 @@ def get_dtype():
 def get_dalle_model() -> Tuple[Any, Any]:
     # Model references
     # dalle-mini
-    DALLE_MODEL = "flax-community/dalle-mini/model-3bqwu04f:latest"  # can be wandb artifact or 🤗 Hub or local folder
-    DALLE_COMMIT_ID = None  # used only with 🤗 hub
+    DALLE_MODEL = "flax-community/dalle-mini"  # can be wandb artifact or 🤗 Hub or local folder
+    DALLE_COMMIT_ID = "4d34126d0df8bc4a692ae933e3b902a1fa8b6114"  # used only with 🤗 hub
 
     dtype = get_dtype()
 
@@ -68,12 +68,12 @@ def get_dalle_model() -> Tuple[Any, Any]:
         ]
         for f in model_files:
             artifact.get_path(f).download("model")
-        model = DalleBart.from_pretrained("model", dtype=dtype, abstract_init=True)
+        model = DalleBart.from_pretrained("model", dtype=dtype)
         tokenizer = AutoTokenizer.from_pretrained("model")
     else:
         # local folder or 🤗 Hub
         model = DalleBart.from_pretrained(
-            DALLE_MODEL, revision=DALLE_COMMIT_ID, dtype=dtype, abstract_init=True
+            DALLE_MODEL, revision=DALLE_COMMIT_ID, dtype=dtype
         )
         tokenizer = AutoTokenizer.from_pretrained(DALLE_MODEL, revision=DALLE_COMMIT_ID)
 
@@ -89,7 +89,7 @@ def get_vqgan_model() -> Any:
 
 def get_clip_model() -> Tuple[Any, Any]:
     # CLIP model
-    CLIP_REPO = "openai/clip-vit-base-patch16"
+    CLIP_REPO = "openai/clip-vit-base-patch32"
     CLIP_COMMIT_ID = None
 
     # Load CLIP
@@ -361,6 +361,7 @@ import uuid
 app = FastAPI(docs_url='/swagger')
 origins = [ "*",
             "http://localhost",
+            "http://localhost:80",
             "http://localhost:27017",
             "http://localhost:3000", ]
 app.add_middleware(

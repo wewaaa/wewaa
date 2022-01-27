@@ -64,6 +64,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock #unsure if necessary
       - /usr/share/tpu/:/usr/share/tpu/
       - /lib/libtpu.so:/lib/libtpu.so
+      - ~/.cache/huggingface/:/root/.cache/huggingface/
     devices:
       - "/dev/accel0:/dev/accel0"
       - "/dev/accel1:/dev/accel1"

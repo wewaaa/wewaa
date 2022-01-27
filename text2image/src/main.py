@@ -16,6 +16,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
+from imp import reload
 from typing import Any, Callable, Dict, Iterable, List, Tuple
 
 import jax
@@ -44,7 +45,7 @@ def get_dtype():
 def get_dalle_model() -> Tuple[Any, Any]:
     # Model references
     # dalle-mini
-    DALLE_MODEL = "dalle-mini/dalle-mini/model-3bqwu04f:latest"  # can be wandb artifact or 🤗 Hub or local folder
+    DALLE_MODEL = "flax-community/dalle-mini/model-3bqwu04f:latest"  # can be wandb artifact or 🤗 Hub or local folder
     DALLE_COMMIT_ID = None  # used only with 🤗 hub
 
     dtype = get_dtype()
@@ -80,8 +81,8 @@ def get_dalle_model() -> Tuple[Any, Any]:
 
 def get_vqgan_model() -> Any:
     # VQGAN model
-    VQGAN_REPO = "dalle-mini/vqgan_imagenet_f16_16384"
-    VQGAN_COMMIT_ID = "e93a26e7707683d349bf5d5c41c5b0ef69b677a9"
+    VQGAN_REPO = "flax-community/vqgan_f16_16384"
+    VQGAN_COMMIT_ID = None
 
     # Load VQGAN
     return VQModel.from_pretrained(VQGAN_REPO, revision=VQGAN_COMMIT_ID)
@@ -176,10 +177,9 @@ def get_key_using_seed(seed = None):
     import random
 
     if seed is None:
+        # create a random key
         seed = random.randint(0, 2 ** 32 - 1)
 
-    # create a random key
-    seed = random.randint(0, 2 ** 32 - 1)
     return jax.random.PRNGKey(seed)
 
 
@@ -198,7 +198,6 @@ def get_tokenized_prompt(prompt: str = "a red T-shirt", *, models: dict) -> Any:
     """Let's define a text prompt."""
 
     processed_prompt = text_normalizer(prompt) if dalle.config.normalize_text else prompt
-    processed_prompt
 
     """We repeat the prompt on each device and tokenize it."""
 
@@ -416,9 +415,6 @@ db = mongodb_connection()
 s3 = s3_connection()
 image_table = db.image  # image table
 
-def serve():
-    uvicorn.run(app, host="0.0.0.0", port=80)
-
 @app.get("/images")
 async def get_images(id: str) -> JSONResponse:
     # get all images from S3 using boto3
@@ -431,20 +427,21 @@ async def get_images(id: str) -> JSONResponse:
 
 @app.post("/inference")
 async def inference(prompt: str) -> JSONResponse:
+    if None in [models, params, funcs, key]:
+        init_models()
+
     # generate images with given prompt
     # save images to S3 using boto3
-    #
-    # TODO...
-    #
-    print("input promt"+prompt)
+    print("input prompt: "+prompt)
     status_code = 201
     result = {
         "total_image": 16,
         "images_url": []
     } # show S3 urls with 201 Created? or not?
+
     images_list = wrapped_predict(prompt)
     for result_image in images_list:
-        unique_id = str(uuid.uuid4().int)
+        unique_id = str(uuid.uuid4())
         file_name = "images/"+unique_id+".png"
         result_image.save(file_name)
         image_opened_file = open(file_name, 'rb')
@@ -474,8 +471,13 @@ async def inference(prompt: str) -> JSONResponse:
 async def hello():
     return "hello tpu"
 
+from pathlib import Path
+
+def serve():
+    uvicorn.run("__main__:app", host="0.0.0.0", port=80, reload=True)
+
 def main():
-    init_models()
+    # init_models()
     serve()
 
 

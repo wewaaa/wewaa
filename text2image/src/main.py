@@ -16,11 +16,12 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
+from imp import reload
 from typing import Any, Callable, Dict, Iterable, List, Tuple
 
 import jax
 import jax.numpy as jnp
-from dalle_mini.model import DalleBart
+from dalle_mini.model import CustomFlaxBartForConditionalGeneration as DalleBart
 from starlette.responses import JSONResponse
 from vqgan_jax.modeling_flax_vqgan import VQModel
 from transformers import AutoTokenizer, CLIPProcessor, FlaxCLIPModel
@@ -44,8 +45,8 @@ def get_dtype():
 def get_dalle_model() -> Tuple[Any, Any]:
     # Model references
     # dalle-mini
-    DALLE_MODEL = "dalle-mini/dalle-mini/model-3bqwu04f:latest"  # can be wandb artifact or 🤗 Hub or local folder
-    DALLE_COMMIT_ID = None  # used only with 🤗 hub
+    DALLE_MODEL = "flax-community/dalle-mini"  # can be wandb artifact or 🤗 Hub or local folder
+    DALLE_COMMIT_ID = "4d34126d0df8bc4a692ae933e3b902a1fa8b6114"  # used only with 🤗 hub
 
     dtype = get_dtype()
 
@@ -67,12 +68,12 @@ def get_dalle_model() -> Tuple[Any, Any]:
         ]
         for f in model_files:
             artifact.get_path(f).download("model")
-        model = DalleBart.from_pretrained("model", dtype=dtype, abstract_init=True)
+        model = DalleBart.from_pretrained("model", dtype=dtype)
         tokenizer = AutoTokenizer.from_pretrained("model")
     else:
         # local folder or 🤗 Hub
         model = DalleBart.from_pretrained(
-            DALLE_MODEL, revision=DALLE_COMMIT_ID, dtype=dtype, abstract_init=True
+            DALLE_MODEL, revision=DALLE_COMMIT_ID, dtype=dtype
         )
         tokenizer = AutoTokenizer.from_pretrained(DALLE_MODEL, revision=DALLE_COMMIT_ID)
 
@@ -80,15 +81,15 @@ def get_dalle_model() -> Tuple[Any, Any]:
 
 def get_vqgan_model() -> Any:
     # VQGAN model
-    VQGAN_REPO = "dalle-mini/vqgan_imagenet_f16_16384"
-    VQGAN_COMMIT_ID = "e93a26e7707683d349bf5d5c41c5b0ef69b677a9"
+    VQGAN_REPO = "flax-community/vqgan_f16_16384"
+    VQGAN_COMMIT_ID = None
 
     # Load VQGAN
     return VQModel.from_pretrained(VQGAN_REPO, revision=VQGAN_COMMIT_ID)
 
 def get_clip_model() -> Tuple[Any, Any]:
     # CLIP model
-    CLIP_REPO = "openai/clip-vit-base-patch16"
+    CLIP_REPO = "openai/clip-vit-base-patch32"
     CLIP_COMMIT_ID = None
 
     # Load CLIP
@@ -140,16 +141,14 @@ def generate_funcs(models: dict):
     dalle, vqgan, clip = easy_get(models, 'dalle', 'vqgan', 'clip')
 
     # model inference
-    @partial(jax.pmap, axis_name="batch", static_broadcasted_argnums=(3, 4))
-    def p_generate(tokenized_prompt, key, params, top_k, top_p):
+    @partial(jax.pmap, axis_name="batch")
+    def p_generate(tokenized_prompt, key, params):
         return dalle.generate(
             **tokenized_prompt,
             do_sample=True,
             num_beams=1,
             prng_key=key,
             params=params,
-            top_k=top_k,
-            top_p=top_p
         )
 
 
@@ -164,11 +163,16 @@ def generate_funcs(models: dict):
     def p_clip(inputs, params):
         logits = clip(params=params, **inputs).logits_per_image
         return logits
+    
+    @partial(jax.pmap, axis_name="batch")
+    def p_get_images(indices, params):
+        return vqgan.decode_code(indices, params=params)
 
     return {
         'generate': p_generate,
         'decode': p_decode,
-        'clip': p_clip
+        'clip': p_clip,
+        'get_images': p_get_images
     }
 
 def get_key_using_seed(seed = None):
@@ -176,10 +180,9 @@ def get_key_using_seed(seed = None):
     import random
 
     if seed is None:
+        # create a random key
         seed = random.randint(0, 2 ** 32 - 1)
 
-    # create a random key
-    seed = random.randint(0, 2 ** 32 - 1)
     return jax.random.PRNGKey(seed)
 
 
@@ -198,7 +201,6 @@ def get_tokenized_prompt(prompt: str = "a red T-shirt", *, models: dict) -> Any:
     """Let's define a text prompt."""
 
     processed_prompt = text_normalizer(prompt) if dalle.config.normalize_text else prompt
-    processed_prompt
 
     """We repeat the prompt on each device and tokenize it."""
 
@@ -333,6 +335,68 @@ def setup():
 
 models, params, funcs, key = None, None, None, None
 
+def custom_to_pil(x):
+    import numpy as np
+    from PIL import Image
+
+    x = np.clip(x, 0.0, 1.0)
+    x = (255 * x).astype(np.uint8)
+    x = Image.fromarray(x)
+    if not x.mode == "RGB":
+        x = x.convert("RGB")
+    return x
+
+def hallucinate(prompt, num_images=64):
+    from flax.training.common_utils import shard
+    import random
+    import numpy as np
+
+    tokenizer, = easy_get(models, 'tokenizer')
+    bart_params, vqgan_params = easy_get(params, 'dalle', 'vqgan')
+    p_generate, p_get_images = easy_get(funcs, 'generate', 'get_images')
+
+    prompt = [prompt] * jax.device_count()
+    inputs = tokenizer(
+        prompt,
+        return_tensors="jax",
+        padding="max_length",
+        truncation=True,
+        max_length=128,
+    ).data
+    inputs = shard(inputs)
+
+    all_images = []
+    for i in range(num_images // jax.device_count()):
+        key = random.randint(0, 1e7)
+        rng = jax.random.PRNGKey(key)
+        rngs = jax.random.split(rng, jax.local_device_count())
+        indices = p_generate(inputs, rngs, bart_params).sequences
+        indices = indices[:, :, 1:]
+
+        images = p_get_images(indices, vqgan_params)
+        images = np.squeeze(np.asarray(images), 1)
+        for image in images:
+            all_images.append(custom_to_pil(image))
+    return all_images
+
+
+def clip_top_k(prompt, images, k=8):
+    import numpy as np
+
+    processor, clip = easy_get(models, 'processor', 'clip')
+
+    inputs = processor(text=prompt, images=images, return_tensors="np", padding=True)
+    outputs = clip(**inputs)
+    logits = outputs.logits_per_text
+    scores = np.array(logits[0]).argsort()[-k:][::-1]
+    return [images[score] for score in scores]
+
+
+def top_k_predictions(prompt, num_candidates=32, k=8):
+    images = hallucinate(prompt, num_images=num_candidates)
+    images = clip_top_k(prompt, images, k=k)
+    return images
+
 def init_models():
     global models, params, funcs, key
     setup()
@@ -351,6 +415,7 @@ import uvicorn
 from fastapi import FastAPI, Response, requests
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from fastapi.middleware.cors import CORSMiddleware
 import boto3
 from aws_confing import *
 from pymongo import MongoClient
@@ -359,7 +424,18 @@ import datetime
 import uuid
 
 app = FastAPI(docs_url='/swagger')
-
+origins = [ "*",
+            "http://localhost",
+            "http://localhost:80",
+            "http://localhost:27017",
+            "http://localhost:3000", ]
+app.add_middleware(
+     CORSMiddleware, 
+     allow_origins=origins, 
+     allow_credentials=True, 
+     allow_methods=["*"], 
+     allow_headers=["*"], 
+     )
 
 def s3_connection():
     '''
@@ -405,9 +481,6 @@ db = mongodb_connection()
 s3 = s3_connection()
 image_table = db.image  # image table
 
-def serve():
-    uvicorn.run(app, host="0.0.0.0", port=80)
-
 @app.get("/images")
 async def get_images(id: str) -> JSONResponse:
     # get all images from S3 using boto3
@@ -420,21 +493,22 @@ async def get_images(id: str) -> JSONResponse:
 
 @app.post("/inference")
 async def inference(prompt: str) -> JSONResponse:
+    if None in [models, params, funcs, key]:
+        init_models()
+
     # generate images with given prompt
     # save images to S3 using boto3
-    #
-    # TODO...
-    #
-    print("input promt"+prompt)
+    print("input prompt: "+prompt)
     status_code = 201
     result = {
         "total_image": 16,
         "images_url": []
     } # show S3 urls with 201 Created? or not?
-    images_list = wrapped_predict(prompt)
+
+    images_list = top_k_predictions(prompt, num_candidates=64, k=9)
     for result_image in images_list:
-        unique_id = str(uuid.uuid4().int)
-        file_name = "images/"+unique_id+".png"
+        unique_id = str(uuid.uuid4())
+        file_name = f"images/{unique_id}.png"
         result_image.save(file_name)
         image_opened_file = open(file_name, 'rb')
         s3.put_object(
@@ -455,7 +529,7 @@ async def inference(prompt: str) -> JSONResponse:
             "score": score,
             "created_at": datetime.datetime.now()
         }
-        image_table.insert_one(image_data_dic)
+        # image_table.insert_one(image_data_dic)
         result["images_url"].append("https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/"+file_name)
     return JSONResponse(result, status_code=status_code)
 
@@ -463,8 +537,13 @@ async def inference(prompt: str) -> JSONResponse:
 async def hello():
     return "hello tpu"
 
+from pathlib import Path
+
+def serve():
+    uvicorn.run("__main__:app", host="0.0.0.0", port=80, reload=True)
+
 def main():
-    init_models()
+    # init_models()
     serve()
 
 

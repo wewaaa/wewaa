@@ -7,8 +7,14 @@ import Header from '../components/Header';
 import axios from "axios";
 import TextField from '@mui/material/TextField';
 import { exportComponentAsJPEG } from 'react-component-export-image';
-import default_Img from "./background.png";
-
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import './Simson.css'
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 
 
 const Fix=styled.div`
@@ -70,6 +76,7 @@ const ButtonLoc=styled.div`
     margin-left: 41rem;
 `;
 
+
 const StyledButton = withStyles({
     root: {
         background: ' #fed41d',
@@ -106,29 +113,49 @@ const StyledButton = withStyles({
 
 
 function UploadPage(){
+    const [openImageList,setOpenImageList]=useState(false);
     const [loading,setLoading]=useState(false);
     const [sendText,setSendText]=useState('');
-    const [imagesUrl,setImagesUrl]=useState('');
+    const [imagesUrlList,setImagesUrlList]=useState([]);
+    const [imagesUrl,setImagesUrl]=useState('img/background.png');
 
 
-    //URL이미지가 없을때 배경이미지(초원과 파란하늘)가 기본으로 나오게하는 함수
-    const onErrorImg = (e) => {
-        e.target.src = default_Img;
+    //이미지 리스트 on/off
+    const checkList=()=>{
+        setOpenImageList(true);
+        console.log({openImageList})
     }
 
 
+    // 완성한 이미지 저장 State
+    const [simsonImage,setSimsonImage]=useState('img/Questions.png')
 
-    //이미지를 파일로 저장하기 위한 함수 src={`${image}?w=16&h=16&fit=crop&auto=format`}.
+    const checkImage=(e)=>{
+        setSimsonImage(e.target.value)
+      }
+
+
+    //URL이미지(배경이미지)가 없을때 기본 배경이미지 설정 
+    //  const onErrorImg = (e) => {
+    //      e.target.src = 'img/background.png';
+    //  }
+    // 활용 =>  <img alt='이미지' src={imagesUrl} width={'100%'} onError={onErrorImg}/>
+
+
+
+    //저장기능함수  ex)src={`${image}?w=16&h=16&fit=crop&auto=format`}
     const componentRef = useRef();
 
     const ComponentToPrint = React.forwardRef((props, ref) => (
-      <img ref={ref} alt='이미지' src={imagesUrl} width={'100%'}
-      onError={onErrorImg}
- 
-      />
+        <div ref={ref} style={{position:'relative'}}>
+            <img alt='이미지' src={imagesUrl} width={'100%'}/>
+            <div className='SimsonBox'>
+                <img className='Simson'alt='' src={simsonImage}></img>
+            </div>
+        </div>
     ));
 
-    
+    //텍스트 입력값을저장
     const onInputChange=async(e)=>{
         const text=e.target.value;
         setSendText(text);
@@ -138,7 +165,8 @@ function UploadPage(){
             console.log(sendText)
     }
     
-    //텍스트를 서버에 전달하기 위한 함수
+    // API 실행
+
     const onSubmit =async(e)=>{
         e.preventDefault();
         const data ={
@@ -149,13 +177,14 @@ function UploadPage(){
             'http://localhost/inference?prompt='+sendText,data
          ).then(response=>{
             console.log(response);
-            setImagesUrl(response.data.images_url);
+            setImagesUrlList(response.data.images_url);
         })
         .catch(error => {
             alert('false')
         })
         
         setLoading(false);
+        alert('이미지로딩 완료')
     };
     return (
         <Fix>
@@ -173,6 +202,7 @@ function UploadPage(){
                                 multiline
                                 placeholder='Text'
                                 style={{'width': "30.5rem" , 'height':"23px"}}
+                                onChange={onInputChange}
                                 />
                             </TextInput>
                         <Explanation>
@@ -187,8 +217,33 @@ function UploadPage(){
                             Save As JPG
                         </StyledButton>
                     </ButtonLoc>
-                    
                 </form>
+                <FormControl>
+                    <FormLabel id="demo-row-radio-buttons-group-label">Select Simson</FormLabel>
+                    <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                    >
+                    <FormControlLabel value="img/Bart2.png" control={<Radio />} onClick={checkImage} label="Bart"   />
+                    <FormControlLabel value="img/Homer5.png" control={<Radio />} onClick={checkImage} label="Homer" />
+                    <FormControlLabel value="img/Lisa.png" control={<Radio />} onClick={checkImage}  label="Lisa" />
+                    </RadioGroup>
+                </FormControl>
+                <button onClick={checkList}>이미지 리스트보기</button>
+                {openImageList ?
+                    <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+                    {imagesUrlList.map((image) => (
+                        <ImageListItem key={image}>
+                         <img
+                            src={`${image}?w=16&h=16&fit=crop&auto=format`}
+                            srcSet={`${image}?w=16&h=16&fit=crop&auto=format&dpr=2 2x`}
+                            alt="profile"
+                        />
+                        </ImageListItem>
+                    ))}
+                    </ImageList>
+                :<></>}    
             </UploadMargin>
             {loading ? <StyledLinearProgress/>:<></>}
         </Fix>

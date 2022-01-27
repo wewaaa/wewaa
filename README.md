@@ -111,7 +111,7 @@ E&M사업(Entertainment & Media)에서 디지털화가 끊임 없이 진행되�
  # :office: Member
  |:sunglasses:김기현|:laughing:함우주|:stuck_out_tongue_winking_eye:나승미|:joy:유제빈|
 |:---:|:---:|:---:|:---:|
-|Back-end, AI|AI|Front-end, UI/UX|Front-end| 
+|Back-end, AI|AI|Web Desginer, UI/UX|Web Desginer,Front-end developer| 
   
 
    

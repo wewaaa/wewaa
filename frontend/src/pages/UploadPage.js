@@ -15,11 +15,12 @@ import FormLabel from '@mui/material/FormLabel';
 import './Simson.css'
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import { TableContainer } from '@material-ui/core';
 
 
 const Fix=styled.div`
     width: 100%;
-    height: 1115px;
+    height: 1355px;
     background-color: #373737;
 `;
 
@@ -77,6 +78,19 @@ const ButtonLoc=styled.div`
 `;
 
 
+const TC=styled.div`
+    overflow:scroll;
+    height:256px;
+    width:500px
+    border:1px solid black;
+
+`;
+
+//이미지 테이블 위치 
+const ImageResultList=styled.div`
+`;
+
+
 const StyledButton = withStyles({
     root: {
         background: ' #fed41d',
@@ -110,6 +124,8 @@ const StyledButton = withStyles({
     },
   })(LinearProgress);
 
+  
+
 
 
 function UploadPage(){
@@ -118,10 +134,25 @@ function UploadPage(){
     const [sendText,setSendText]=useState('');
     const [imagesUrlList,setImagesUrlList]=useState([]);
     const [imagesUrl,setImagesUrl]=useState('img/background.png');
+    var params = {
+        html2CanvasOptions: {
+            scrollX: -window.scrollX,
+            windowWidth: document.documentElement.offsetWidth,
+        }
+    };
+    
+    //리스트에서 이미지 선택
+    const changeImagesUrl=(e)=>{
+        setImagesUrl(e.target.src)
+    }
 
     //이미지 리스트 on/off
     const checkList=()=>{
-        setOpenImageList(true);
+        if(openImageList===false){
+            setOpenImageList(true);
+        }
+        else
+            setOpenImageList(false);
         console.log({openImageList})
     }
 
@@ -211,7 +242,7 @@ function UploadPage(){
                         <StyledButton variant="contained" onClick={StartSwitch} type='submit'>
                             Apply
                         </StyledButton>
-                        <StyledButton variant="contained" onClick={() => exportComponentAsJPEG(componentRef)}>
+                        <StyledButton variant="contained" onClick={() => exportComponentAsJPEG(componentRef ,params)}>
                             Save As JPG
                         </StyledButton>
                     </ButtonLoc>
@@ -228,20 +259,25 @@ function UploadPage(){
                     <FormControlLabel value="img/Lisa.png" control={<Radio />} onClick={checkImage}  label="Lisa" />
                     </RadioGroup>
                 </FormControl>
-                <button onClick={checkList}>이미지 리스트보기</button>
-                {openImageList ?
-                    <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
-                    {imagesUrlList.map((image) => (
-                        <ImageListItem key={image}>
-                         <img
-                            src={`${image}?w=16&h=16&fit=crop&auto=format`}
-                            srcSet={`${image}?w=16&h=16&fit=crop&auto=format&dpr=2 2x`}
-                            alt="profile"
-                        />
-                        </ImageListItem>
-                    ))}
-                    </ImageList>
-                :<></>}    
+                <ImageResultList>
+                    <button onClick={checkList}>이미지 리스트보기</button>
+                    <TC>
+                        {openImageList ?
+                            <ImageList sx={{ width: 1850, height: 256 }} cols={9} rowHeight={164}>
+                            {imagesUrlList.map((image) => (
+                                <ImageListItem key={image}>
+                                <img
+                                    src={`${image}?w=16&h=16&fit=crop&auto=format`}
+                                    srcSet={`${image}?w=16&h=16&fit=crop&auto=format&dpr=2 2x`}
+                                    alt="profile"
+                                    onClick={changeImagesUrl}
+                                />
+                                </ImageListItem>
+                            ))}
+                            </ImageList>
+                        :<></>}
+                    </TC>
+                </ImageResultList>   
             </UploadMargin>
             {loading ? <StyledLinearProgress/>:<></>}
         </Fix>

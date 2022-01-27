@@ -114,6 +114,7 @@ E&M사업(Entertainment & Media)에서 디지털화가 끊임 없이 진행되�
 | Back-end  |AI  |Web Desginer, |Web Desginer,| 
 |    Front-end developer       |   AI inference             |   UI/UX Desginer              |  Front-end developer
 |AI Traning|||
+|DevOps|||
    
    
 

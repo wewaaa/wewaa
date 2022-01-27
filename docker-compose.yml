@@ -46,7 +46,10 @@ services:
   text2image:
     build: 
       context: ./text2image
-      dockerfile: Dockerfile.test
+      # dockerfile: Dockerfile.test
+    entrypoint: /bin/bash
+    command: -c "pip install -r /dalle/requirements.txt && 
+                  gunicorn src.main:app -t 0 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:80 --reload"
     container_name: text2image
     privileged: true
     cap_add:
@@ -61,8 +64,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock #unsure if necessary
       - /usr/share/tpu/:/usr/share/tpu/
       - /lib/libtpu.so:/lib/libtpu.so
+      - ~/.cache/huggingface/:/root/.cache/huggingface/
     devices:
-      - "/dev:/dev"
+      - "/dev/accel0:/dev/accel0"
+      - "/dev/accel1:/dev/accel1"
+      - "/dev/accel2:/dev/accel2"
+      - "/dev/accel3:/dev/accel3"
     tty: true
     networks:
       - db-tier
@@ -95,8 +102,6 @@ services:
     restart: on-failure
     ports:
       - "27017:27017"
-    volumes:
-      - ./mongo-db:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: wewaa
       MONGO_INITDB_ROOT_PASSWORD: wewaa

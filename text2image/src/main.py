@@ -141,16 +141,14 @@ def generate_funcs(models: dict):
     dalle, vqgan, clip = easy_get(models, 'dalle', 'vqgan', 'clip')
 
     # model inference
-    @partial(jax.pmap, axis_name="batch", static_broadcasted_argnums=(3, 4))
-    def p_generate(tokenized_prompt, key, params, top_k, top_p):
+    @partial(jax.pmap, axis_name="batch")
+    def p_generate(tokenized_prompt, key, params):
         return dalle.generate(
             **tokenized_prompt,
             do_sample=True,
             num_beams=1,
             prng_key=key,
             params=params,
-            top_k=top_k,
-            top_p=top_p
         )
 
 
@@ -165,11 +163,16 @@ def generate_funcs(models: dict):
     def p_clip(inputs, params):
         logits = clip(params=params, **inputs).logits_per_image
         return logits
+    
+    @partial(jax.pmap, axis_name="batch")
+    def p_get_images(indices, params):
+        return vqgan.decode_code(indices, params=params)
 
     return {
         'generate': p_generate,
         'decode': p_decode,
-        'clip': p_clip
+        'clip': p_clip,
+        'get_images': p_get_images
     }
 
 def get_key_using_seed(seed = None):
@@ -332,6 +335,68 @@ def setup():
 
 models, params, funcs, key = None, None, None, None
 
+def custom_to_pil(x):
+    import numpy as np
+    from PIL import Image
+
+    x = np.clip(x, 0.0, 1.0)
+    x = (255 * x).astype(np.uint8)
+    x = Image.fromarray(x)
+    if not x.mode == "RGB":
+        x = x.convert("RGB")
+    return x
+
+def hallucinate(prompt, num_images=64):
+    from flax.training.common_utils import shard
+    import random
+    import numpy as np
+
+    tokenizer, = easy_get(models, 'tokenizer')
+    bart_params, vqgan_params = easy_get(params, 'dalle', 'vqgan')
+    p_generate, p_get_images = easy_get(funcs, 'generate', 'get_images')
+
+    prompt = [prompt] * jax.device_count()
+    inputs = tokenizer(
+        prompt,
+        return_tensors="jax",
+        padding="max_length",
+        truncation=True,
+        max_length=128,
+    ).data
+    inputs = shard(inputs)
+
+    all_images = []
+    for i in range(num_images // jax.device_count()):
+        key = random.randint(0, 1e7)
+        rng = jax.random.PRNGKey(key)
+        rngs = jax.random.split(rng, jax.local_device_count())
+        indices = p_generate(inputs, rngs, bart_params).sequences
+        indices = indices[:, :, 1:]
+
+        images = p_get_images(indices, vqgan_params)
+        images = np.squeeze(np.asarray(images), 1)
+        for image in images:
+            all_images.append(custom_to_pil(image))
+    return all_images
+
+
+def clip_top_k(prompt, images, k=8):
+    import numpy as np
+
+    processor, clip = easy_get(models, 'processor', 'clip')
+
+    inputs = processor(text=prompt, images=images, return_tensors="np", padding=True)
+    outputs = clip(**inputs)
+    logits = outputs.logits_per_text
+    scores = np.array(logits[0]).argsort()[-k:][::-1]
+    return [images[score] for score in scores]
+
+
+def top_k_predictions(prompt, num_candidates=32, k=8):
+    images = hallucinate(prompt, num_images=num_candidates)
+    images = clip_top_k(prompt, images, k=k)
+    return images
+
 def init_models():
     global models, params, funcs, key
     setup()
@@ -440,10 +505,10 @@ async def inference(prompt: str) -> JSONResponse:
         "images_url": []
     } # show S3 urls with 201 Created? or not?
 
-    images_list = wrapped_predict(prompt)
+    images_list = top_k_predictions(prompt, num_candidates=64, k=9)
     for result_image in images_list:
         unique_id = str(uuid.uuid4())
-        file_name = "images/"+unique_id+".png"
+        file_name = f"images/{unique_id}.png"
         result_image.save(file_name)
         image_opened_file = open(file_name, 'rb')
         s3.put_object(

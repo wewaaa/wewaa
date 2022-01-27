@@ -7,8 +7,14 @@ import Header from '../components/Header';
 import axios from "axios";
 import TextField from '@mui/material/TextField';
 import { exportComponentAsJPEG } from 'react-component-export-image';
-import default_Img from "./background.png";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import './Simson.css'
 
+import default_Img from "./background.png";
 
 
 const Fix=styled.div`
@@ -70,6 +76,11 @@ const ButtonLoc=styled.div`
     margin-left: 41rem;
 `;
 
+const test=styled.div`
+    width: 300px;
+    height: 350px;
+`;
+
 const StyledButton = withStyles({
     root: {
         background: ' #fed41d',
@@ -110,6 +121,12 @@ function UploadPage(){
     const [sendText,setSendText]=useState('');
     const [imagesUrl,setImagesUrl]=useState('');
 
+    // 심슨 이미지 저장 State
+    const [simsonImage,SetSimsonImage]=useState('')
+
+    const checkImage=(e)=>{
+        SetSimsonImage(e.target.value)
+      }
 
     //URL이미지가 없을때 기본 배경이미지 설정 
     
@@ -123,10 +140,12 @@ function UploadPage(){
     const componentRef = useRef();
 
     const ComponentToPrint = React.forwardRef((props, ref) => (
-      <img ref={ref} alt='이미지' src={imagesUrl} width={'100%'}
-      onError={onErrorImg}
- 
-      />
+        <div ref={ref} style={{position:'relative'}}>
+            <img alt='이미지' src={imagesUrl} width={'100%'} onError={onErrorImg}/>
+            <div className='SimsonBox'>
+                <img className='Simson'alt='' src={simsonImage}></img>
+            </div>
+        </div>
     ));
 
     
@@ -173,6 +192,7 @@ function UploadPage(){
                                 multiline
                                 placeholder='Text'
                                 style={{'width': "30.5rem" , 'height':"23px"}}
+                                onChange={onInputChange}
                                 />
                             </TextInput>
                         <Explanation>
@@ -187,8 +207,19 @@ function UploadPage(){
                             Save As JPG
                         </StyledButton>
                     </ButtonLoc>
-                    
                 </form>
+                <FormControl>
+        <FormLabel id="demo-row-radio-buttons-group-label">Select Simson</FormLabel>
+        <RadioGroup
+          row
+          aria-labelledby="demo-row-radio-buttons-group-label"
+          name="row-radio-buttons-group"
+        >
+          <FormControlLabel value="img/Bart2.png" control={<Radio />} onClick={checkImage} label="Bart" />
+          <FormControlLabel value="img/Homer5.png" control={<Radio />} onClick={checkImage} label="Homer" />
+          <FormControlLabel value="img/Lisa.png" control={<Radio />} onClick={checkImage}  label="Lisa" />
+        </RadioGroup>
+      </FormControl>
             </UploadMargin>
             {loading ? <StyledLinearProgress/>:<></>}
         </Fix>

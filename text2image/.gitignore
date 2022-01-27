@@ -1,3 +1,5 @@
 aws_confing.py
 env.env
 model
+images
+__pycache__

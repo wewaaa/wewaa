@@ -351,6 +351,7 @@ import uvicorn
 from fastapi import FastAPI, Response, requests
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from fastapi.middleware.cors import CORSMiddleware
 import boto3
 from aws_confing import *
 from pymongo import MongoClient
@@ -359,7 +360,17 @@ import datetime
 import uuid
 
 app = FastAPI(docs_url='/swagger')
-
+origins = [ "*",
+            "http://localhost",
+            "http://localhost:27017",
+            "http://localhost:3000", ]
+app.add_middleware(
+     CORSMiddleware, 
+     allow_origins=origins, 
+     allow_credentials=True, 
+     allow_methods=["*"], 
+     allow_headers=["*"], 
+     )
 
 def s3_connection():
     '''
@@ -455,7 +466,7 @@ async def inference(prompt: str) -> JSONResponse:
             "score": score,
             "created_at": datetime.datetime.now()
         }
-        image_table.insert_one(image_data_dic)
+        # image_table.insert_one(image_data_dic)
         result["images_url"].append("https://drawa-image-bucket.s3.eu-west-2.amazonaws.com/"+file_name)
     return JSONResponse(result, status_code=status_code)
 

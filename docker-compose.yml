@@ -46,7 +46,7 @@ services:
   text2image:
     build: 
       context: ./text2image
-      dockerfile: Dockerfile.test
+      # dockerfile: Dockerfile.test
     container_name: text2image
     privileged: true
     cap_add:
@@ -95,8 +95,6 @@ services:
     restart: on-failure
     ports:
       - "27017:27017"
-    volumes:
-      - ./mongo-db:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: wewaa
       MONGO_INITDB_ROOT_PASSWORD: wewaa

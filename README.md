@@ -36,8 +36,7 @@ E&M사업(Entertainment & Media)에서 디지털화가 끊임 없이 진행되�
 
 # :wrench: System Architecture
 
-![Untitled Diagram drawio (19)](https://user-images.githubusercontent.com/80400157/151128063-36ba45de-31e0-4a65-ba6d-3874364a9751.png)
-
+![Untitled Diagram drawio (20)](https://user-images.githubusercontent.com/58874807/151354977-4879c785-9046-4dfb-87b6-bf31265c8fae.png)
 
 
 

@@ -1,0 +1,10 @@
+route:
+  receiver: 'slack'
+
+receivers:
+  - name: 'slack'
+      slack_configs:
+          - send_resolved: true
+            username: '<서버 알림 봇>'
+            channel: '#team-d'
+            api_url: 'https://hooks.slack.com/services/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'

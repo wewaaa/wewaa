@@ -73,6 +73,7 @@ services:
     tty: true
     networks:
       - db-tier
+      - frontend-tier
     env_file:
       - ./env.env
     ports:
@@ -110,21 +111,23 @@ services:
       - db-tier
     tty: true
 
-  mongo-express:
-    image: mongo-express
-    container_name: mongo_admin
-    restart: always
-    depends_on:
-      - mongodb
-    ports:
-      - "8081:8081"
-    environment:
-      ME_CONFIG_MONGODB_SERVER: mongodb
-      ME_CONFIG_MONGODB_ADMINUSERNAME: wewaa
-      ME_CONFIG_MONGODB_ADMINPASSWORD: wewaa
-    networks:
-      - db-tier
-    tty: true
+  # mongo-express:
+  #   image: mongo-express
+  #   container_name: mongo_admin
+  #   restart: always
+  #   depends_on:
+  #     - mongodb
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     ME_CONFIG_MONGODB_SERVER: mongodb
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: wewaa
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: wewaa
+  #   networks:
+  #     - db-tier
+  #   tty: true
+
+  
 #  adminer:
 #    image: adminer
 #    container_name: adminer
@@ -139,6 +142,36 @@ services:
 #    networks:
 #      - nginx-tier
 
+  prometheus:
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    networks:
+      - ai-tier
+
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    user: "472"
+    container_name: grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3001:3000
+    volumes:
+      - ./datasource.yml:/etc/grafana/provisioning/datasource.yml
+    env_file:
+      - ./config.monitoring
+    networks:
+      - ai-tier
+ 
 networks:
   db-tier:
     driver: bridge

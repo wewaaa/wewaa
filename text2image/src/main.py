@@ -422,8 +422,11 @@ from pymongo import MongoClient
 from bson import ObjectId
 import datetime
 import uuid
-
+from starlette_exporter import PrometheusMiddleware, handle_metrics
+from prometheus_fastapi_instrumentator import Instrumentator
 app = FastAPI(docs_url='/swagger')
+app.add_middleware(PrometheusMiddleware)
+app.add_route("/metrics", handle_metrics)
 origins = [ "*",
             "http://localhost",
             "http://localhost:80",
@@ -436,7 +439,7 @@ app.add_middleware(
      allow_methods=["*"], 
      allow_headers=["*"], 
      )
-
+Instrumentator().instrument(app).expose(app)
 def s3_connection():
     '''
     s3 bucket에 연결
@@ -484,8 +487,6 @@ image_table = db.image  # image table
 @app.get("/images")
 async def get_images(id: str) -> JSONResponse:
     # get all images from S3 using boto3
-    #
-    # TODO...
     #mongo find
     status_code = 200
     result = {}

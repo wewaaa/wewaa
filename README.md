@@ -5,7 +5,7 @@
 |:---:|:---:|:---:|:---:|
 | Back-end  |AI  |Web Desginer, |Web Desginer,| 
 |    Front-end developer       |   AI inference             |   UI/UX Desginer              |  Front-end developer
-|AI Traning|||
+|AI Traning|| Front-end developer|
 |DevOps|||
    
    
